@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { PencilIcon } from "@heroicons/react/20/solid";
+
 interface ProductCardProps {
   name: string;
   image: string;
@@ -19,7 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ name, image, description, id 
   return (
     <article
       onClick={handleCardClick}
-      className="w-[20vw] h-[30vh] relative isolate flex flex-col justify-end overflow-hidden rounded-2xl px-8 pb-8 pt-40 max-w-sm mx-auto mt-8 shadow-lg bg-white"
+      className="w-[20vw] sm:w-[70vw] h-[30vh] relative isolate flex flex-col justify-end overflow-hidden rounded-2xl px-8 pb-8 pt-40 max-w-sm mx-auto mt-8 shadow-lg bg-white"
     >
       <div className="absolute inset-0 bg-gradient-to-t from-gray-800 via-gray-800/40 rounded-t-2xl">
         <PencilIcon className="absolute top-4 right-4 w-6 h-6 text-black" />
