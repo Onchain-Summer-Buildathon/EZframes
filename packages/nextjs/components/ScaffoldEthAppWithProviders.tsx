@@ -4,7 +4,6 @@ import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 import { DynamicContextProvider, mergeNetworks } from "@dynamic-labs/sdk-react-core";
 import { DynamicWagmiConnector } from "@dynamic-labs/wagmi-connector";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { WagmiProvider } from "wagmi";
 import { Footer } from "~~/components/Footer";
@@ -58,11 +57,9 @@ const evmNetworks = [
 ];
 
 export const ScaffoldEthAppWithProviders = ({ children }: { children: React.ReactNode }) => {
-  const { resolvedTheme } = useTheme();
-
   return (
     <DynamicContextProvider
-      theme={resolvedTheme === "dark" ? "dark" : "light"}
+      theme={"light"}
       settings={{
         environmentId: scaffoldConfig.dynamicEnvId,
         walletConnectors: [EthereumWalletConnectors],
