@@ -11,7 +11,7 @@ import axios from "axios";
 //   },
 // };
 export const DEFAULT_SHOPIFY_URL = "https://my-on-chain-store.myshopify.com/admin/api/2023-01/products.json";
-export const DEFAULT_SHOPIFY_ACCESS_TOKEN = "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";
+export const DEFAULT_SHOPIFY_ACCESS_TOKEN = process.env.NEXT_PUBLIC_SHOPIFY_ACCESS ?? "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";
 
 export const getShopifyProducts = async (url?: string, accessToken?: string) => {
   if (!url) {
