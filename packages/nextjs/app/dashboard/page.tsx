@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import ProductCard, { cardData } from "~~/components/ProductCard";
 import ProductModal from "~~/components/ProductModal";
-import ShopifyModal from "~~/components/ShopifyModal";
+// import ShopifyModal from "~~/components/ShopifyModal";
 import { Journey } from "~~/types/commontypes";
 
 const Dashboard: NextPage = () => {
   const [open, setOpen] = useState(false);
-  const [shopify, setShopify] = useState(false);
+  // const [shopify, setShopify] = useState(false);
   const [products, setProducts] = useState([]);
   const getAllProducts = async () => {
     try {
@@ -44,15 +44,15 @@ const Dashboard: NextPage = () => {
           }}
           className="btn btn-primary"
         >
-          Add Product
+          Create Frame
         </button>
         <button
           onClick={() => {
-            setShopify(!shopify);
+            // setShopify(!shopify);
           }}
           className="btn btn-success"
         >
-          Load using Shopify
+          View Analytics
         </button>
       </div>
       <div className="container">
@@ -69,7 +69,7 @@ const Dashboard: NextPage = () => {
         </div>
       </div>
       {open && <ProductModal isOpen={open} onClose={() => setOpen(false)} />}
-      {shopify && <ShopifyModal isOpen={shopify} onClose={() => setShopify(false)} />}
+      {/* {shopify && <ShopifyModal isOpen={shopify} onClose={() => setShopify(false)} />} */}
     </div>
   );
 };

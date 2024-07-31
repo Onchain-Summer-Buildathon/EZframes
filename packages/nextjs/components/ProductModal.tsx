@@ -45,7 +45,7 @@ const ProductModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <Dialog open={isOpen} onClose={handleClose} className="fixed z-50 overflow-y-auto w-[100%]">
-      <DialogTitle className="text-center">New Product</DialogTitle>
+      <DialogTitle className="text-center">New Frame</DialogTitle>
       <DialogContent className="flex flex-col gap-4 w-[600px]">
         <TextField
           label="Image URL"
