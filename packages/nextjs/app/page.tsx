@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import type { NextPage } from "next";
 import { Banner } from "~~/components/Banner";
+import { Faq } from "~~/components/Faq";
 import { sendTransaction, signMessage } from "~~/lib/dynamic";
 
 const Home: NextPage = () => {
@@ -45,6 +46,7 @@ const Home: NextPage = () => {
   return (
     <div className="flex items-center flex-col flex-grow pt-10 page">
       <Banner />
+      <Faq />
     </div>
   );
 };
