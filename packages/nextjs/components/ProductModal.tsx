@@ -16,15 +16,11 @@ const ProductModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [imageUrl, setImageUrl] = useState("");
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [price, setPrice] = useState<string>("");
 
   const handleClose = () => {
     setImageUrl("");
     setProductName("");
     setProductDescription("");
-    setQuantity(0);
-    setPrice("");
     onClose();
   };
 
@@ -34,18 +30,15 @@ const ProductModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       desc: productDescription,
       image: imageUrl,
       walletAddress: address as string,
-      quantity,
-      price,
     });
 
-    console.log(newProduct);
-    notification.success("Frame Story created successfully");
+    notification.success("Frame created successfully");
     router.push(`/dashboard/${newProduct._id}`);
   };
 
   return (
     <Dialog open={isOpen} onClose={handleClose} className="fixed z-50 overflow-y-auto w-[100%]">
-      <DialogTitle className="text-center">New Product</DialogTitle>
+      <DialogTitle className="text-center">New Frame</DialogTitle>
       <DialogContent className="flex flex-col gap-4 w-[600px]">
         <TextField
           label="Image URL"
@@ -56,7 +49,7 @@ const ProductModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           className="bg-gray-100"
         />
         <TextField
-          label="Product Name"
+          label="Name"
           value={productName}
           onChange={e => setProductName(e.target.value)}
           variant="outlined"
@@ -64,31 +57,12 @@ const ProductModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           className="bg-gray-100"
         />
         <TextField
-          label="Product Description"
+          label="Description"
           value={productDescription}
           onChange={e => setProductDescription(e.target.value)}
           variant="outlined"
           multiline
           rows={4}
-          fullWidth
-          className="bg-gray-100"
-        />
-        <TextField
-          label="Quantity"
-          type="number"
-          value={quantity}
-          onChange={e => setQuantity(parseInt(e.target.value))}
-          variant="outlined"
-          fullWidth
-          className="bg-gray-100"
-          inputProps={{ min: 1 }}
-        />
-        <TextField
-          label="Price"
-          type="text"
-          value={price}
-          onChange={e => setPrice(e.target.value)}
-          variant="outlined"
           fullWidth
           className="bg-gray-100"
         />

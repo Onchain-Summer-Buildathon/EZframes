@@ -1,14 +1,10 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-// Define the JourneyDocument interface extending Document
 interface JourneyDocument extends Document {
   walletAddress: string;
   name: string;
   desc?: string;
   image?: string;
-  prodId: string;
-  quantity: number;
-  price: string;
   frames: string[];
 }
 
@@ -19,9 +15,6 @@ const JourneySchema: Schema<JourneyDocument> = new Schema<JourneyDocument>(
     name: String,
     desc: String,
     image: String,
-    prodId: String,
-    quantity: Number,
-    price: String,
     frames: [String],
   },
   {

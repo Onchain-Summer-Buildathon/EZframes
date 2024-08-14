@@ -101,7 +101,14 @@ export const saveFrame = async (frame: Frame) => {
   }
 };
 
-export async function createAttestation({ txnId, seller, buyer, amount, quantity, productId }: {
+export async function createAttestation({
+  txnId,
+  seller,
+  buyer,
+  amount,
+  quantity,
+  productId,
+}: {
   txnId: string;
   seller: string;
   buyer: string;
@@ -172,7 +179,6 @@ export const saveJourney = async (journey: Partial<Journey>) => {
   }
 };
 
-
 export const getJourneyById = async (id: string) => {
   if (id === "") return;
   try {
@@ -182,9 +188,22 @@ export const getJourneyById = async (id: string) => {
     }
     const data = await response.json();
     return data;
-  }
-  catch (error: any) {
+  } catch (error: any) {
     console.log(error);
     throw new Error(error.message);
   }
-}
+};
+
+export const getAllTemplates = async () => {
+  try {
+    const response = await fetch(`/api/journey`);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+};
