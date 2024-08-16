@@ -5,6 +5,7 @@ import { ArrowRightIcon } from "@dynamic-labs/sdk-react-core";
 import { useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import { ChevronDownIcon, ChevronUpIcon, PlusIcon } from "@heroicons/react/24/outline";
+import GitCoinTemplate from "~~/components/GitcoinModal";
 import ProductCard from "~~/components/ProductCard";
 import ProductModal from "~~/components/ProductModal";
 import { getAllTemplates } from "~~/services/frames";
@@ -89,6 +90,7 @@ const SystemTemplate = ({
 };
 
 const FrameTemplates = () => {
+  const [open, setOpen] = useState(false);
   return (
     <div className="flex flex-col justify-start items-start w-full gap-2 p-2">
       <div className="flex items-center gap-4 ">
@@ -108,7 +110,13 @@ const FrameTemplates = () => {
           image="https://seeklogo.com/images/G/gitcoin-logo-F0F8F8FCAA-seeklogo.com.png"
           description="Get funding for your project"
           onClick={() => {
-            console.log("hello");
+            setOpen(true);
+          }}
+        />
+        <GitCoinTemplate
+          isOpen={open}
+          onClose={() => {
+            setOpen(false);
           }}
         />
       </div>

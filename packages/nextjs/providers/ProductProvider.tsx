@@ -185,6 +185,7 @@ const useProduct = () => {
 
 export function ProvideProduct({ children }: PropsWithChildren<any>) {
   const value = useProduct();
+  // @ts-ignore
   return <ProductJourney.Provider value={value}> {children}</ProductJourney.Provider>;
 }
 

@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { FrameRequest, getFrameHtmlResponse } from "@coinbase/onchainkit";
 import Analytics from "~~/model/analytics";
-import Order from "~~/model/order";
 import connectDB from "~~/services/connectDB";
-import { createAttestation, getFrameAtServer, getJourneyById } from "~~/services/frames";
+import { getFrameAtServer, getJourneyById } from "~~/services/frames";
 import { Journey } from "~~/types/commontypes";
-import { warn } from "console";
-import { myAddress } from "~~/constants";
 
 const storeAnalytics = async (body: FrameRequest, state: any) => {
   const analyticsEntry = new Analytics({
@@ -36,22 +33,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (body.untrustedData?.state && typeof body.untrustedData.state === "string") {
     console.log("Parsing State");
     state = JSON.parse(decodeURIComponent(body.untrustedData?.state as string));
-
   }
   const journeyId = state?.journey_id || "";
   const journey: Journey = await getJourneyById(journeyId);
 
-  if (typeof body.untrustedData?.transactionId === "string" && body.untrustedData.transactionId.trim() !== "") {
-    const txnId = body.untrustedData.transactionId;
-    createAttestation({
-      txnId: txnId,
-      productId: state.journey_id as string,
-      seller: state.journey.walletAddress as string || myAddress,
-      quantity: String(state.journey.quantity) || "",
-      amount: String(state.journey.price) || "",
-      buyer: String(body.untrustedData.fid),
-    });
-  }
   let stateUpdate;
   if (state && typeof state === "object") {
     console.log("in HERE");

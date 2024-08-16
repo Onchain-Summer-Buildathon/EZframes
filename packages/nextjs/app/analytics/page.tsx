@@ -9,9 +9,6 @@ import {
   FormControl,
   Grid,
   InputLabel,
-  List,
-  ListItem,
-  ListItemText,
   MenuItem,
   Paper,
   Select,
@@ -24,7 +21,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { set } from "nprogress";
 import LineChart from "~~/components/analytics/LineChart";
 import {
   GetOrders,

@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { ImageResponse } from "@vercel/og";
 import parse from "html-react-parser";
 
-export const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
-export const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL;
+const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
+const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL;
 
-const uploadToIPFS = async (file, name) => {
+const uploadToIPFS = async (file: any, name: string) => {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("pinataMetadata", JSON.stringify({ name }));
@@ -51,9 +51,8 @@ export async function POST(req: NextRequest) {
   );
   const imageBuffer = await imageResponse
     .blob()
-    .then(blob => blob.arrayBuffer())
-    .then(buffer => Buffer.from(buffer));
-
+    .then((blob: any) => blob.arrayBuffer())
+    .then((buffer: any) => Buffer.from(buffer));
 
   try {
     const ipfsHash = await uploadToIPFS(new Blob([imageBuffer], { type: "image/png" }), "image");

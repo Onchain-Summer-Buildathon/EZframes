@@ -26,7 +26,7 @@ export const sendTransaction = async (
       throw new Error("Network not found");
     }
 
-    const chain = getOrMapViemChain(currentNetwork);
+    const chain = getOrMapViemChain(currentNetwork as any);
 
     const transaction = {
       account: wallet.address as Hex,

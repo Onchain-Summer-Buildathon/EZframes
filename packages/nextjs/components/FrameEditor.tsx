@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ButtonList from "./ButtonsList";
-import FarcasterModal from "./FarcasterModal";
 import InputField from "./InputField";
-import { Button, MenuItem, Select, TextField } from "@mui/material";
+import { MenuItem, Select, TextField } from "@mui/material";
 import { useProductJourney } from "~~/providers/ProductProvider";
 
 const FrameEditor = () => {
   const { frame, setFrame, currentFrame, setCurrentFrame } = useProductJourney();
   const [imageUrlOption, setImageUrlOption] = useState("url");
   const [htmlInput, setHtmlInput] = useState("");
+  // @ts-ignore
   const [imageUrl, setImageUrl] = useState(currentFrame?.image?.src || "");
-  const [open, setOpen] = useState(false);
   const getImageResponse = async (html: string) => {
     const response = await fetch(`/api/imageGeneration`, {
       body: JSON.stringify({ html }),

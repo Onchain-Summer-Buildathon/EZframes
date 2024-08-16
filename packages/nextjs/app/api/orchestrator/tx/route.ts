@@ -10,25 +10,21 @@ export async function POST(req: NextRequest): Promise<NextResponse<FrameTransact
   const { untrustedData } = body;
   let state;
   if (untrustedData?.state && typeof untrustedData.state === "string") {
-    console.log("Parsing State");
     state = JSON.parse(decodeURIComponent(untrustedData?.state as string));
   }
   const journeyId = state?.journey_id || "";
   let journey: Journey;
   if (state?.journey) {
     journey = state.journey;
-  }
-  else {
+  } else {
     journey = await getJourneyById(journeyId);
   }
   const address = journey.walletAddress || myAddress;
-  const price = journey.price || "1";
   const callData = encodeFunctionData({
     abi: ABI,
     functionName: "trf",
-    args: [address, parseEther(price), BigInt(untrustedData?.inputText || 1)],
+    args: [address, parseEther("0.001eth"), BigInt(untrustedData?.inputText || 1)],
   });
-  console.log(price, callData, journeyId, journey.walletAddress, address, state?.journey_id, state?.journey.walletAddress, state.journey.walletAddress, myAddress, journey);
   return NextResponse.json({
     chainId: "eip155:84532",
     method: "eth_sendTransaction",

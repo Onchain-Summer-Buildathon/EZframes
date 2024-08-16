@@ -33,6 +33,7 @@ const ProductModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     });
 
     notification.success("Frame created successfully");
+    // @ts-ignore
     router.push(`/dashboard/${newProduct._id}`);
   };
 

@@ -1,8 +1,9 @@
 import * as dotenv from "dotenv";
-dotenv.config();
 import { ethers, Wallet } from "ethers";
-import QRCode from "qrcode";
 import { config } from "hardhat";
+import QRCode from "qrcode";
+
+dotenv.config();
 
 async function main() {
   const privateKey = process.env.DEPLOYER_PRIVATE_KEY;
@@ -30,7 +31,8 @@ async function main() {
       console.log("--", networkName, "-- 📡");
       console.log("   balance:", +ethers.formatEther(balance));
       console.log("   nonce:", +(await provider.getTransactionCount(address)));
-    } catch (e) {
+    } catch (e: any) {
+      console.log(e);
       console.log("Can't connect to network", networkName);
     }
   }
