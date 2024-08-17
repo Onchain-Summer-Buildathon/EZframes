@@ -54,7 +54,7 @@ export const DEFAULT_FRAME: FrameMetadataType = {
     },
   ],
   image: {
-    src: "https://w7.pngwing.com/pngs/666/150/png-transparent-messi-world-cup-2023-thumbnail.png",
+    src: "https://placehold.co/600x400",
   },
   state: {
     time: "2024-06-28T16:14:14.986Z",

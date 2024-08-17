@@ -5,22 +5,25 @@ import { GetDefaultFrame } from "~~/services/frames/frameGetters";
 import { Frame } from "~~/types/commontypes";
 
 const thumbnailImageStyle = {
-  marginTop: "-7px",
-  marginLeft: "7px",
-  maxWidth: "90%",
+  width: "100%",
+  maxWidth: "100%",
   height: "auto",
   maxHeight: "90%",
   borderRadius: "5px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 const sidebarStyle = {
-  height: "605px",
+  height: "90%",
   padding: "10px",
-  overflow: "auto",
+  overflowY: "auto",
+  boxSizing: "border-box",
 };
 
 const thumbnailStyle = {
   padding: "10px",
-  height: "175px",
+  height: "150px",
   marginBottom: "10px",
   boxShadow: "2px 2px 2px grey",
   cursor: "pointer",
@@ -58,8 +61,8 @@ function FrameSidebar() {
   };
   if (!frames) return null;
   return (
-    <div className="bg-white flex flex-col gap-2 p-4 h-full">
-      <div style={sidebarStyle}>
+    <div className="bg-white flex flex-col p-4 h-[100%]">
+      <div style={sidebarStyle as React.CSSProperties}>
         {frames.map(slide => (
           <div
             key={slide._id}

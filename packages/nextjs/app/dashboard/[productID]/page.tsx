@@ -10,13 +10,13 @@ const Product: NextPage = () => {
   return (
     <ProvideProduct>
       <div className="grid grid-cols-6 gap-4 ">
-        <div className="col-span-1">
+        <div className="col-span-1 flex-grow h-[95vh]">
           <FrameSidebar />
         </div>
         <div className="col-span-3 mt-4">
           <FrameRender />
         </div>
-        <div className="col-span-2 ">
+        <div className="col-span-2 flex-grow h-[95vh]">
           <FrameEditor />
         </div>
       </div>
