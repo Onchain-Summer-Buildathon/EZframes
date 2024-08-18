@@ -1,9 +1,10 @@
+import { uploadToIPFS } from "../svg/uploadToIPFS";
 import { FrameMetadataType } from "@coinbase/onchainkit";
 import { APP_URL } from "~~/constants";
 import { svgDescriptionTemplate, svgTemplate } from "~~/utils";
 
 //TODO: make svgs betetr
-export const GetGitcoinLogoFrame = (
+export const GetGitcoinLogoFrame = async (
   journey_id: string,
   frame_id_1: string,
   frame_id_2: string,
@@ -12,7 +13,8 @@ export const GetGitcoinLogoFrame = (
   fundingRecieved: string,
 ) => {
   const svg = svgTemplate(title, daysToGo, fundingRecieved);
-  // TODO: Get Pinata URL from API and place in image below
+  const blob = new Blob([svg], { type: "image/svg+xml" });
+  const image_url = await uploadToIPFS(blob, "image1");
   const LOGO_FRAME: FrameMetadataType = {
     buttons: [
       {
@@ -22,7 +24,7 @@ export const GetGitcoinLogoFrame = (
       },
     ],
     image: {
-      src: "https://picsum.photos/id/237/200/300",
+      src: image_url,
     },
     state: {
       journey_id: journey_id,
@@ -32,7 +34,7 @@ export const GetGitcoinLogoFrame = (
   return LOGO_FRAME;
 };
 
-export const GetGitcoinDescriptionFrame = (
+export const GetGitcoinDescriptionFrame = async (
   journey_id: string,
   frame_id: string,
   next_frame_id: string,
@@ -40,7 +42,8 @@ export const GetGitcoinDescriptionFrame = (
   description: string,
 ) => {
   const descsvg = svgDescriptionTemplate(title, description);
-  // TODO: get PINATA URL and place in image below
+  const blob = new Blob([descsvg], { type: "image/svg+xml" });
+  const image_url = await uploadToIPFS(blob, "image2");
   const DESCRIPTION_FRAME: FrameMetadataType = {
     buttons: [
       {
@@ -50,7 +53,7 @@ export const GetGitcoinDescriptionFrame = (
       },
     ],
     image: {
-      src: "https://via.placeholder.com/150",
+      src: image_url,
     },
     state: {
       journey_id: journey_id,

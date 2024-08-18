@@ -1,7 +1,4 @@
-import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { Wallet, ethers } from "ethers";
-import { APP_URL, myAddress } from "~~/constants";
-import Order from "~~/model/order";
+import { APP_URL } from "~~/constants";
 import { Frame, Journey } from "~~/types/commontypes";
 
 export const getFrameById = async (id: string) => {
@@ -74,38 +71,12 @@ export const createJourney = async (journey: Partial<Journey>) => {
     //   journey.desc as string,
     //   journey.image as string,
     // );
-    return;
+    return data;
   } catch (error: any) {
     console.error(error);
     throw new Error(error.message);
   }
 };
-
-export const createGitcoinJourney = async (journey: Parial<Journey>) => {
-  try {
-    const response = await fetch(`/api/journey`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(journey),
-    });
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await response.json();
-    const newJourney = await initJourneyWithGitcoinFrames(
-      data._id as string,
-      journey.price as string,
-      journey.desc as string,
-      journey.image as string,
-    );
-    return;
-  } catch (error: any) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-}
 
 export const saveFrame = async (frame: Frame) => {
   try {

@@ -1,6 +1,6 @@
-export const svgTemplate = (title: string, date: string, funds: string) => {
-  return (
-    <svg width="270" height="270" viewBox="0 0 270 270" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const svgTemplate = (title: string, timeLeft: string, funds: string) => {
+  return `
+    <svg width="540" height="270" viewBox="0 0 540 270" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_2001_17)">
         <path d="M0 0H270V270H0V0Z" fill="url(#paint0_linear_2001_17)" />
         <g clip-path="url(#clip1_2001_17)">
@@ -26,7 +26,7 @@ export const svgTemplate = (title: string, date: string, funds: string) => {
           ${title}
         </text>
         <text x="135" y="130" font-size="14" text-anchor="middle" fill="#0E0333">
-          Date Created: ${date}{" "}
+          Time Left: ${timeLeft}
         </text>
         <text x="135" y="160" font-size="14" text-anchor="middle" fill="#0E0333">
           Funds Received:${funds}
@@ -49,12 +49,12 @@ export const svgTemplate = (title: string, date: string, funds: string) => {
         </clipPath>
       </defs>
     </svg>
-  );
+  `;
 };
 
 export const svgDescriptionTemplate = (title: string, description: string) => {
-  return (
-    <svg width="270" height="270" viewBox="0 0 270 270" fill="none" xmlns="http://www.w3.org/2000/svg">
+  return `
+    <svg width="810" height="270" viewBox="0 0 540 270" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_2001_17)">
         <path d="M0 0H270V270H0V0Z" fill="url(#paint0_linear_2001_17)" />
         <g clip-path="url(#clip1_2001_17)">
@@ -79,7 +79,7 @@ export const svgDescriptionTemplate = (title: string, description: string) => {
         <text x="135" y="100" font-size="18" font-weight="bold" text-anchor="middle" fill="#0E0333">
           ${title}
         </text>
-        <text x="135" y="130" font-size="14" text-anchor="middle" fill="#0E0333">
+        <text x="135" y="130" font-size="10" text-anchor="middle" fill="#0E0333">
           ${description}
         </text>
         <text x="200" y="260" font-size="12" text-anchor="end" fill="#4A4A4A" font-family="Arial, sans-serif">
@@ -100,5 +100,5 @@ export const svgDescriptionTemplate = (title: string, description: string) => {
         </clipPath>
       </defs>
     </svg>
-  );
-}
+  `;
+};

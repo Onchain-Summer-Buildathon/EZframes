@@ -2,7 +2,6 @@ import { createFrame, saveFrame, saveJourney } from "../frames";
 import { GetBuyFrame, GetDescriptionFrame, GetEmailFrame, GetProductFrame, GetSuccessFrame } from "./frameGetters";
 import { GetGitcoinDescriptionFrame, GetGitcoinLogoFrame } from "./gitcoinFrameGetters";
 import { FrameMetadataType } from "@coinbase/onchainkit";
-import { emailFrame } from "~~/constants";
 
 export const initJourneyWithFrames = async (
   journeyId: string,
@@ -69,12 +68,9 @@ export const initJourneyWithFrames = async (
   return journey;
 };
 
-export const initGitcoinJourney = async (journeyId: string, projectLink: string) => {
-  // TODO: Get Data from project link
-  // Call API To scrape page
-  // const data = await fetch("/v1/")
+export const initGitcoinJourney = async (journeyId: string, data: any) => {
   const Frames = [];
-  for (let i = 0; i <= 3; i++) {
+  for (let i = 0; i <= 2; i++) {
     const frameBody: FrameMetadataType = {
       image: "https://via.placeholder.com/150",
     };
@@ -91,13 +87,29 @@ export const initGitcoinJourney = async (journeyId: string, projectLink: string)
     Frames[1]._id,
     data.title,
     data.timeLeft,
-    data.fundingRecieved,
+    data.currentFundingRecieved,
   );
-  const logoStatus = await saveFrame({
+  await saveFrame({
     _id: Frames[0],
     name: "Gitcoin Logo Frame",
     frameJson: LogoFrameJson,
   });
 
-  const DescriptionFrameJson = await GetGitcoinDescriptionFrame(journeyId, Frames[1]._id, Frames[2._id], data.title, data.description);
+  const DescriptionFrameJson = await GetGitcoinDescriptionFrame(
+    journeyId,
+    Frames[1]._id,
+    Frames[2]._id,
+    data.title,
+    data.textContent[3],
+  );
+  await saveFrame({
+    _id: Frames[1],
+    name: "Gitcoin Description Frame",
+    frameJson: DescriptionFrameJson,
+  });
+  const journey = await saveJourney({
+    _id: journeyId,
+    frames: Frames,
+  });
+  return journey;
 };
