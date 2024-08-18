@@ -81,6 +81,32 @@ export const createJourney = async (journey: Partial<Journey>) => {
   }
 };
 
+export const createGitcoinJourney = async (journey: Parial<Journey>) => {
+  try {
+    const response = await fetch(`/api/journey`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(journey),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    const newJourney = await initJourneyWithGitcoinFrames(
+      data._id as string,
+      journey.price as string,
+      journey.desc as string,
+      journey.image as string,
+    );
+    return;
+  } catch (error: any) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+}
+
 export const saveFrame = async (frame: Frame) => {
   try {
     const response = await fetch(`/api/frame/${frame._id}`, {
