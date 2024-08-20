@@ -4,7 +4,6 @@ import parse from "html-react-parser";
 
 const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
 const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL;
-
 const uploadToIPFS = async (file: any, name: string) => {
   const formData = new FormData();
   formData.append("file", file);
@@ -20,7 +19,8 @@ const uploadToIPFS = async (file: any, name: string) => {
   };
   const response = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", options);
   const data = await response.json();
-  return data.IpfsHash;
+  const imageUrl = `${GATEWAY_URL}/${data.ipfsHash}`;
+  return imageUrl;
 };
 
 export async function POST(req: NextRequest) {

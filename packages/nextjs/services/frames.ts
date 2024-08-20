@@ -1,7 +1,4 @@
-import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { Wallet, ethers } from "ethers";
-import { APP_URL, myAddress } from "~~/constants";
-import Order from "~~/model/order";
+import { APP_URL } from "~~/constants";
 import { Frame, Journey } from "~~/types/commontypes";
 
 export const getFrameById = async (id: string) => {
@@ -74,7 +71,7 @@ export const createJourney = async (journey: Partial<Journey>) => {
     //   journey.desc as string,
     //   journey.image as string,
     // );
-    return;
+    return data;
   } catch (error: any) {
     console.error(error);
     throw new Error(error.message);

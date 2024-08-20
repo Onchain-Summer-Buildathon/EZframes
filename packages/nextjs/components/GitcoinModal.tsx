@@ -4,6 +4,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } 
 import { useMutation } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 import { createJourney } from "~~/services/frames";
+import { initGitcoinJourney } from "~~/services/frames/initScript";
 import { scrapeGitCoinURL } from "~~/services/scrape-gitcoin";
 import { notification } from "~~/utils/scaffold-eth";
 
@@ -29,10 +30,14 @@ const GitCoinTemplate: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         image: data.src as string,
         walletAddress: address as string,
       });
-      return newProduct;
+      return {
+        journey: newProduct,
+        gitcoinData: data,
+      };
     },
     onSuccess: (data: any) => {
       console.log(data);
+      initGitcoinJourney(data.journey._id, data.gitcoinData);
       queryClient.invalidateQueries({ queryKey: ["myFrames"] });
     },
     onError: () => {
