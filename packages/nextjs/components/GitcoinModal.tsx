@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { queryClient } from "./ScaffoldEthAppWithProviders";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
@@ -22,6 +22,11 @@ const GitCoinTemplate: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
+  const initGitcoinJourneyMutation = useMutation({
+    mutationFn: async (data: any) => {
+      await initGitcoinJourney(data.journey._id, data.gitcoinData);
+    },
+  });
   const handleGitCoinJourney = useMutation({
     mutationFn: async (data: any) => {
       const newProduct = await createJourney({
@@ -36,15 +41,13 @@ const GitCoinTemplate: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       };
     },
     onSuccess: (data: any) => {
-      console.log(data);
-      initGitcoinJourney(data.journey._id, data.gitcoinData);
+      initGitcoinJourneyMutation.mutateAsync(data);
       queryClient.invalidateQueries({ queryKey: ["myFrames"] });
     },
     onError: () => {
       notification.error("Gitcoin fetching failed");
     },
   });
-
   const handleGitCoin = useMutation({
     mutationFn: async (url: string) => {
       const data = await scrapeGitCoinURL(url);
@@ -58,6 +61,9 @@ const GitCoinTemplate: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       notification.error("Gitcoin fetching failed");
     },
   });
+  const isPending = useMemo(() => {
+    return initGitcoinJourneyMutation.isPending || handleGitCoinJourney.isPending || handleGitCoin.isPending;
+  }, [initGitcoinJourneyMutation, handleGitCoinJourney, handleGitCoin]);
   return (
     <Dialog open={isOpen} onClose={handleClose} className="fixed z-50 overflow-y-auto w-[100%]">
       <DialogTitle className="text-center">Gitcoin Project</DialogTitle>
@@ -77,11 +83,12 @@ const GitCoinTemplate: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         </Button>
         <Button
           onClick={() => handleGitCoin.mutateAsync(gitcoinUrl)}
+          disabled={isPending}
           color="primary"
           variant="contained"
           className="bg-blue-500 hover:bg-blue-600"
         >
-          Submit
+          {isPending ? "Loading..." : "Create Journey"}
         </Button>
       </DialogActions>
     </Dialog>

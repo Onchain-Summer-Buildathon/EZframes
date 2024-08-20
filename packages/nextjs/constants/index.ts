@@ -1,7 +1,7 @@
 import { FrameMetadataType } from "@coinbase/onchainkit";
 import { Abi } from "viem";
 
-export const APP_URL = "https://framify-seven.vercel.app";
+export const APP_URL = "https://ezframes.xyz";
 export const txFrame = {
   buttons: [
     {

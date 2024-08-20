@@ -70,7 +70,7 @@ export const initJourneyWithFrames = async (
 
 export const initGitcoinJourney = async (journeyId: string, data: any) => {
   const Frames = [];
-  for (let i = 0; i <= 2; i++) {
+  for (let i = 0; i <= 1; i++) {
     const frameBody: FrameMetadataType = {
       image: "https://via.placeholder.com/150",
     };
@@ -98,7 +98,7 @@ export const initGitcoinJourney = async (journeyId: string, data: any) => {
   const DescriptionFrameJson = await GetGitcoinDescriptionFrame(
     journeyId,
     Frames[1]._id,
-    Frames[2]._id,
+    data.url,
     data.title,
     data.textContent[3],
   );
