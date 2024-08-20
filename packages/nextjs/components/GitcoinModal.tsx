@@ -26,11 +26,18 @@ const GitCoinTemplate: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     mutationFn: async (data: any) => {
       await initGitcoinJourney(data.journey._id, data.gitcoinData);
     },
+    onSuccess: () => {
+      notification.success("Gitcoin journey created successfully");
+      handleClose();
+    },
+    onError: () => {
+      notification.error("Gitcoin journey creation failed");
+    },
   });
   const handleGitCoinJourney = useMutation({
     mutationFn: async (data: any) => {
       const newProduct = await createJourney({
-        name: "Gitcoin Project",
+        name: data.title as string,
         desc: "Gitcoin Project",
         image: data.src as string,
         walletAddress: address as string,

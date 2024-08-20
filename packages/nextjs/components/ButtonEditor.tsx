@@ -53,7 +53,6 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
         <MenuItem value="tx">Transaction</MenuItem>
         <MenuItem value="post">Post</MenuItem>
         <MenuItem value="link">Link</MenuItem>
-        <MenuItem value="post_redirect">Post Redirect</MenuItem>
       </Select>
       {button.action === "post" && (
         <Select

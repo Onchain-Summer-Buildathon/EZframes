@@ -19,7 +19,7 @@ export const GetGitcoinLogoFrame = async (
     buttons: [
       {
         action: "post",
-        target: APP_URL + "/api/orchestrator/" + frame_id_2,
+        target: frame_id_2,
         label: "Learn More",
       },
     ],
@@ -47,9 +47,14 @@ export const GetGitcoinDescriptionFrame = async (
   const DESCRIPTION_FRAME: FrameMetadataType = {
     buttons: [
       {
-        action: "post_redirect",
+        action: "link",
         target: targetUrl,
-        label: "Donate",
+        label: "Donate & Learn More",
+      },
+      {
+        action: "link",
+        target: `${APP_URL}`,
+        label: "Checkout the builder",
       },
     ],
     image: {
