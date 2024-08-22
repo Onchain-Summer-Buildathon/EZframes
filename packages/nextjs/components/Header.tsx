@@ -28,6 +28,10 @@ export const menuLinks: HeaderMenuLink[] = [
     label: "Analytics",
     href: "/analytics",
   },
+  {
+    label: "FAQS",
+    href: "/faqs",
+  },
 ];
 
 export const HeaderMenuLinks = () => {
@@ -97,7 +101,7 @@ export const Header = () => {
             <Image alt="EZ_Frames logo" className="cursor-pointer" fill src="/EzSvg.svg" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold leading-tight">EZ_Frames</span>
+            <span className="font-bold leading-tight">EZFrames</span>
             <span className="text-xs">Frames made easy</span>
           </div>
         </Link>
