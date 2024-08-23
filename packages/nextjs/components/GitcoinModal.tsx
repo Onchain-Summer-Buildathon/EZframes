@@ -95,7 +95,7 @@ const GitCoinTemplate: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           variant="contained"
           className="bg-blue-500 hover:bg-blue-600"
         >
-          {isPending ? "Loading..." : "Create Journey"}
+          {isPending ? <span className="loading loading-spinner loading-lg" /> : "Create Journey"}
         </Button>
       </DialogActions>
     </Dialog>

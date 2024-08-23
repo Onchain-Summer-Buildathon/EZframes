@@ -10,7 +10,6 @@ export const scrapeGitCoinURL = async (url: string) => {
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    console.log("URL", url);
     await page.goto(url, { waitUntil: "networkidle0", timeout: 120000 });
     const data1 = await page.evaluate(() => document?.querySelector("*")?.outerHTML);
     const textContent: any = [];
@@ -23,11 +22,8 @@ export const scrapeGitCoinURL = async (url: string) => {
       return null;
     }
     const $ = cheerio?.load(data1 as string);
-    console.log("Cheerio", $);
     const image = $("img.h-32.w-full.object-cover.lg\\:h-80.rounded.md\\:rounded-3xl");
     const src = image.attr("src");
-    const alt = image.attr("alt");
-    console.log("Image", src, alt);
     let createdOnText = "";
     $("*").each((index, element) => {
       const text = $(element).text().trim();

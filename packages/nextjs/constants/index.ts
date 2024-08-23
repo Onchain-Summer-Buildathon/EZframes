@@ -41,16 +41,16 @@ export const DEFAULT_FRAME: FrameMetadataType = {
     {
       action: "post",
       target: "http://localhost:3000/api/orchestrator/1",
-      label: "Home 1",
+      label: "Easy",
     },
     {
       action: "link",
-      label: "OnchainKit",
+      label: "Frame",
       target: "https://onchainkit.xyz",
     },
     {
       action: "post_redirect",
-      label: "Dog pictures",
+      label: "Creation",
     },
   ],
   image: {

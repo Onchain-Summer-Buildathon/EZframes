@@ -15,7 +15,6 @@ const MyFrames = ({ frames }: any) => {
   const [open, setOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const displayedTemplates = showAll ? frames.data : frames.data.slice(0, 4);
-
   return (
     <div className="flex flex-col justify-start items-start w-full gap-2 p-2">
       <div className="flex items-center gap-4 ">
@@ -28,7 +27,7 @@ const MyFrames = ({ frames }: any) => {
         >
           <PlusIcon className="h-4 w-4 text-gray-700" />
         </button>
-        {frames.data.length > 5 && (
+        {frames.data.length >= 5 && (
           <button
             className="p-2 border border-gray-300 rounded-full bg-white hover:bg-gray-100 shadow-md focus:outline-none focus:ring-2 focus:ring-gray-200"
             onClick={() => setShowAll(!showAll)}
@@ -98,17 +97,9 @@ const FrameTemplates = () => {
       </div>
       <div className="flex flex-wrap gap-4 justify-start w-full">
         <SystemTemplate
-          name="E-commerce"
-          image="/ecommerce.png"
-          description="A simple e-commerce template"
-          onClick={() => {
-            console.log("hello");
-          }}
-        />
-        <SystemTemplate
           name="Gitcoin Grants"
           image="https://seeklogo.com/images/G/gitcoin-logo-F0F8F8FCAA-seeklogo.com.png"
-          description="Get funding for your project"
+          description="Advertise on warpcast"
           onClick={() => {
             setOpen(true);
           }}
@@ -129,7 +120,12 @@ const Dashboard: NextPage = () => {
     queryKey: ["myFrames"],
     queryFn: getAllTemplates,
   });
-  if (myFrames.isLoading) return <div>Loading...</div>;
+  if (myFrames.isLoading)
+    return (
+      <div className="flex items-center justify-center h-[100vh] w-[100vw]">
+        <span className="loading loading-spinner loading-lg" />
+      </div>
+    );
   return (
     <div className="flex items-center flex-col flex-grow pt-10">
       <MyFrames frames={myFrames} />

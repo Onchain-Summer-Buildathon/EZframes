@@ -58,6 +58,7 @@ export const svgDescriptionTemplate = (title: string, description: string) => {
     .map((line, index) => `<tspan x="270" dy="${index === 0 ? 0 : 1.2}em">${line}</tspan>`)
     .join("");
   return `
+
     <svg width="540" height="270" viewBox="0 0 540 270" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g clip-path="url(#clip0_2001_11)">
     <path d="M0 0H540V270H0V0Z" fill="url(#paint0_linear_2001_11)" />
