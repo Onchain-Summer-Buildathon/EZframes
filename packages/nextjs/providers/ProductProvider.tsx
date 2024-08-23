@@ -2,6 +2,7 @@ import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useSt
 import { useParams } from "next/navigation";
 import { FrameMetadataType } from "@coinbase/onchainkit";
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
+import { queryClient } from "~~/components/ScaffoldEthAppWithProviders";
 import { getFrameById } from "~~/services/frames";
 import { Frame, Journey } from "~~/types/commontypes";
 
@@ -97,6 +98,8 @@ const useProduct = () => {
       updateProduct.mutateAsync(journey as Journey);
       setFrame(data);
       setCurrentFrame(data.frameJson);
+      productQuery.refetch();
+      queryClient.invalidateQueries({ queryKey: ["frames"] });
     },
   });
 
@@ -119,6 +122,7 @@ const useProduct = () => {
       setFrame(data);
       setCurrentFrame(data.frameJson);
       productQuery.refetch();
+      queryClient.invalidateQueries({ queryKey: ["frames"] });
     },
   });
 
@@ -143,6 +147,8 @@ const useProduct = () => {
     onSettled: () => {
       setFrame(null);
       setCurrentFrame(null);
+      queryClient.invalidateQueries({ queryKey: ["frames"] });
+      productQuery.refetch();
     },
   });
 

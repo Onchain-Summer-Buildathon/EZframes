@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useProductJourney } from "~~/providers/ProductProvider";
 import { getFrameById } from "~~/services/frames";
 import { GetDefaultFrame } from "~~/services/frames/frameGetters";
@@ -41,13 +42,19 @@ function FrameSidebar() {
   const { productQuery, productID, frame, setFrame, setCurrentFrame, createFrame } = useProductJourney();
   const [frames, setFrames] = useState<Frame[] | undefined>(undefined);
   const [currentFrameId, setCurrentFrameId] = useState<string>(frame?._id as string);
+
+  const framesQuery = useQuery({
+    queryKey: ["frames", productQuery.data], // Query key
+    queryFn: () => {
+      if (!productQuery.data) return;
+      return Promise.all(productQuery?.data?.frames.map(frame => getFrameById(frame)));
+    },
+  });
   useEffect(() => {
-    if (productQuery.data) {
-      Promise.all(productQuery.data.frames.map(frame => getFrameById(frame)))
-        .then(data => setFrames(data))
-        .catch(error => console.error("Error fetching frames:", error));
+    if (framesQuery.data) {
+      setFrames(framesQuery?.data);
     }
-  }, [productQuery.data]);
+  }, [framesQuery.data]);
 
   useEffect(() => {
     setCurrentFrameId(frame?._id as string);

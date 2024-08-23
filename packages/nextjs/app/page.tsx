@@ -5,7 +5,7 @@ import { Banner } from "~~/components/Banner";
 
 const Home: NextPage = () => {
   return (
-    <div className="flex items-center flex-col flex-grow pt-10 page">
+    <div className="flex items-center justify-center flex-col flex-grow page">
       <Banner />
     </div>
   );
