@@ -1,5 +1,5 @@
-const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
-const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL;
+export const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
+export const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL;
 export const uploadToIPFS = async (file: any, name: string) => {
   const formData = new FormData();
   formData.append("file", file);

@@ -3749,6 +3749,7 @@ __metadata:
     react-hot-toast: "npm:^2.4.0"
     satori: "npm:^0.10.14"
     satori-html: "npm:^0.3.2"
+    sharp: "npm:^0.33.5"
     tailwindcss: "npm:^3.4.3"
     type-fest: "npm:^4.6.0"
     typescript: "npm:5.1.6"
@@ -15444,7 +15445,6 @@ __metadata:
     husky: "npm:^8.0.1"
     lint-staged: "npm:^13.0.3"
     permissionless: "npm:^0.1.44"
-    sharp: "npm:^0.33.5"
   languageName: unknown
   linkType: soft
 
