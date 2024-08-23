@@ -1,14 +1,17 @@
+import Image from "next/image";
+import Link from "next/link";
+import { PopupButton } from "@typeform/embed-react";
 import { DEFAULT_FRAME } from "~~/constants";
 
 function DefaultFrameRender() {
   const currentFrame = DEFAULT_FRAME;
   return (
     <>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        // @ts-ignore
-        src={currentFrame.image?.src as string}
+      <Image
+        src="/frame_image.jpeg"
         alt="Description of the image"
+        width={500}
+        height={500}
         style={{
           borderRadius: "4px",
           border: "1px solid #ccc",
@@ -19,32 +22,32 @@ function DefaultFrameRender() {
       />
       {currentFrame.input?.text && (
         <input
-          className="w-full p-2 border mt-1 border-gray-400 rounded bg-white" // Set background color to white
+          className="w-full p-2 border mt-[10px] border-gray-400 rounded bg-white" // Set background color to white
           type="text"
-          placeholder={currentFrame.input.text}
+          disabled
+          placeholder={"Create the best of frames with bare minimum effort"}
         />
       )}
       <div
         style={{
           display: "flex",
           flexDirection: "row",
-          marginTop: "4px",
+          marginTop: "10px",
           gap: "4px",
         }}
       >
-        {currentFrame.buttons?.map(({ label }, index: number) => (
-          <button
-            type="button"
-            className="btn bg-black rounded-md text-white px-4 py-2"
-            style={{
-              flex: "1 1 0px",
-              cursor: "pointer",
-            }}
-            key={index}
-          >
-            {label}
-          </button>
-        ))}
+        <div
+          className="btn bg-black rounded-md text-white px-4 py-2"
+          style={{
+            flex: "1 1 0px",
+            cursor: "pointer",
+          }}
+        >
+          <Link href="/dashboard"> Dashboard</Link>
+        </div>
+        <PopupButton id="oNSMcTf6" className="btn bg-black rounded-md text-white px-4 py-2">
+          Contact Us
+        </PopupButton>
       </div>
     </>
   );

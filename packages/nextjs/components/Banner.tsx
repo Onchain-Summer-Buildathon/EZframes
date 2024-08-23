@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import Link from "next/link";
 import DefaultFrameRender from "./DefaultFrameRender";
-import { PopupButton } from "@typeform/embed-react";
 import { BanknotesIcon, BuildingStorefrontIcon, ChartBarIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
 
 export const Banner = () => {
@@ -95,19 +93,8 @@ export const Banner = () => {
                 Create Frames →<span className="block leading-relaxed">No &apos;coding&apos; required</span>
               </h1>
             </div>
-            <div className="text-center font-spaceMono px-1 max-w-lg lg:max-w-none lg:w-4/5 lg:px-0 lg:text-left space-y-5 gap-4">
-              <div className="flex items-center gap-4">
-                <div className="gradient-card">
-                  <Link href="/dashboard"> Dashboard</Link>
-                </div>
-                <div className="gradient-card">
-                  <PopupButton id="oNSMcTf6">Contact Us</PopupButton>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-10">
-              <div className="flex flex-col bg-base-100 p-4 items-center text-center border border-black">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 pt-6">
+              <div className="flex flex-col bg-base-100 p-4 items-center  text-center border border-black">
                 <BuildingStorefrontIcon className="h-6 w-6 fill-secondary mb-2" />
                 <p className="text-sm">
                   Create Frames using dashboard <b>and use templates for EZ</b>
@@ -121,7 +108,7 @@ export const Banner = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-10">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 pt-10">
               <div className="flex flex-col bg-base-100 p-4 items-center text-center border border-black">
                 <BanknotesIcon className="h-6 w-6 fill-secondary mb-2" />
                 <p className="text-sm">
@@ -139,7 +126,7 @@ export const Banner = () => {
           <div className="lg:w-1/2 p-4 text-center">
             {/* Insert FRAME CODE here */}
             <div className="gradient-card">
-              <span className="text-center text-md lg:text-4xl text-black leading-normal">🖼 Frame Example</span>
+              <span className="text-center text-md lg:text-4xl text-black leading-normal">Example Frame 🖼 </span>
             </div>
             <div className="flex flex-col bg-base-100 p-4 items-center text-center border border-black mt-4">
               <DefaultFrameRender />
