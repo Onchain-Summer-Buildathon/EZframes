@@ -1,27 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ImageResponse } from "@vercel/og";
 import parse from "html-react-parser";
-
-const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
-const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL;
-const uploadToIPFS = async (file: any, name: string) => {
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("pinataMetadata", JSON.stringify({ name }));
-  formData.append("pinataOptions", JSON.stringify({ cidVersion: 1 }));
-
-  const options = {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${JWT}`,
-    },
-    body: formData,
-  };
-  const response = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", options);
-  const data = await response.json();
-  const imageUrl = `${GATEWAY_URL}/${data.ipfsHash}`;
-  return imageUrl;
-};
+import { uploadToIPFS } from "~~/services/svg/uploadToIPFS";
 
 export async function POST(req: NextRequest) {
   const payload = await req.json();
@@ -55,9 +35,7 @@ export async function POST(req: NextRequest) {
     .then((buffer: any) => Buffer.from(buffer));
 
   try {
-    const ipfsHash = await uploadToIPFS(new Blob([imageBuffer], { type: "image/png" }), "image");
-    const imageUrl = `${GATEWAY_URL}/${ipfsHash}`;
-
+    const imageUrl = await uploadToIPFS(new Blob([imageBuffer], { type: "image/png" }), "image");
     return NextResponse.json({ url: imageUrl });
   } catch (error) {
     console.error("Error uploading image to Pinata", error);
