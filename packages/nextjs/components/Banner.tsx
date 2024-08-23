@@ -1,62 +1,64 @@
+import { useEffect } from "react";
 import Link from "next/link";
 import DefaultFrameRender from "./DefaultFrameRender";
 import { PopupButton } from "@typeform/embed-react";
 import { BanknotesIcon, BuildingStorefrontIcon, ChartBarIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
 
 export const Banner = () => {
-  // useEffect(() => {
-  //   // Load the particles.js script
-  //   const script = document.createElement("script");
-  //   script.src = "https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js";
-  //   script.onload = () => {
-  //     window?.particlesJS("particles-js", {
-  //       particles: {
-  //         number: {
-  //           value: 100,
-  //           density: {
-  //             enable: true,
-  //             value_area: 800,
-  //           },
-  //         },
-  //         color: {
-  //           value: "#B0E0E6",
-  //         },
-  //         shape: {
-  //           type: "circle",
-  //         },
-  //         opacity: {
-  //           value: 0.7,
-  //           random: true,
-  //         },
-  //         size: {
-  //           value: 7,
-  //           random: true,
-  //         },
-  //         move: {
-  //           direction: "top",
-  //           out_mode: "out",
-  //           speed: 0.3,
-  //           random: false,
-  //           straight: false,
-  //         },
-  //       },
-  //       interactivity: {
-  //         detect_on: "canvas",
-  //         events: {
-  //           onhover: {
-  //             enable: true,
-  //             mode: "repulse",
-  //           },
-  //           onclick: {
-  //             enable: false,
-  //           },
-  //         },
-  //       },
-  //       retina_detect: true,
-  //     });
-  //   };
-  //   document.body.appendChild(script);
-  // }, []);
+  useEffect(() => {
+    // Load the particles.js script
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js";
+    script.onload = () => {
+      // @ts-ignore
+      window?.particlesJS("particles-js", {
+        particles: {
+          number: {
+            value: 100,
+            density: {
+              enable: true,
+              value_area: 800,
+            },
+          },
+          color: {
+            value: "#B0E0E6",
+          },
+          shape: {
+            type: "circle",
+          },
+          opacity: {
+            value: 0.7,
+            random: true,
+          },
+          size: {
+            value: 7,
+            random: true,
+          },
+          move: {
+            direction: "top",
+            out_mode: "out",
+            speed: 0.3,
+            random: false,
+            straight: false,
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: true,
+              mode: "repulse",
+            },
+            onclick: {
+              enable: false,
+            },
+          },
+        },
+        retina_detect: true,
+      });
+    };
+    document.body.appendChild(script);
+  }, []);
 
   return (
     <>
