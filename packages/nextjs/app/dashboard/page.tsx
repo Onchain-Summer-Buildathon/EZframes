@@ -8,6 +8,7 @@ import { ChevronDownIcon, ChevronUpIcon, PlusIcon } from "@heroicons/react/24/ou
 import GitCoinTemplate from "~~/components/GitcoinModal";
 import ProductCard from "~~/components/ProductCard";
 import ProductModal from "~~/components/ProductModal";
+import ProductTemplate from "~~/components/ProductTemplate";
 import { getAllTemplates } from "~~/services/frames";
 import { Journey } from "~~/types/commontypes";
 
@@ -90,12 +91,21 @@ const SystemTemplate = ({
 
 const FrameTemplates = () => {
   const [open, setOpen] = useState(false);
+  const [productOpen, setProductOpen] = useState(false);
   return (
     <div className="flex flex-col justify-start items-start w-full gap-2 p-2">
       <div className="flex items-center gap-4 ">
         <p className="font-bold text-2xl">Frames Templates</p>
       </div>
       <div className="flex flex-wrap gap-4 justify-start w-full">
+        <SystemTemplate
+          name="Product Frames"
+          image="/ecommerce.png"
+          description="Advertise on warpcast"
+          onClick={() => {
+            setProductOpen(true);
+          }}
+        />
         <SystemTemplate
           name="Gitcoin Grants"
           image="https://seeklogo.com/images/G/gitcoin-logo-F0F8F8FCAA-seeklogo.com.png"
@@ -108,6 +118,12 @@ const FrameTemplates = () => {
           isOpen={open}
           onClose={() => {
             setOpen(false);
+          }}
+        />
+        <ProductTemplate
+          isOpen={productOpen}
+          onClose={() => {
+            setProductOpen(false);
           }}
         />
       </div>

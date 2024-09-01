@@ -1,15 +1,16 @@
 import { FrameMetadataType } from "@coinbase/onchainkit";
-import { APP_URL, DEFAULT_FRAME, txFrame } from "~~/constants";
+import { APP_URL, DEFAULT_FRAME } from "~~/constants";
 
 export const GetDefaultFrame = async (journey_id: string) => {
   const frame: FrameMetadataType = DEFAULT_FRAME;
   if (frame.state) {
+    // @ts-ignore
     frame.state.journey_id = journey_id;
   }
   return frame;
 };
 
-export const GetProductFrame = async (
+export const GetProductFrame = (
   journey_id: string,
   frame_id: string,
   frame_id_2: string,
@@ -40,16 +41,9 @@ export const GetProductFrame = async (
   return PRODUCT_FRAME;
 };
 
-export const GetDescriptionFrame = async (
-  journey_id: string,
-  frame_id: string,
-  next_frame_id: string,
-  productDesc: string,
-) => {
-
+export const GetDescriptionFrame = (journey_id: string, frame_id: string, next_frame_id: string) => {
   const DESCRIPTION_FRAME: FrameMetadataType = {
     buttons: [
-
       {
         action: "post",
         target: APP_URL + "/api/orchestrator/" + next_frame_id,
@@ -67,12 +61,7 @@ export const GetDescriptionFrame = async (
   return DESCRIPTION_FRAME;
 };
 
-export const GetEmailFrame = async (
-  journey_id: string,
-  frame_id: string,
-  next_frame_id: string,
-  productImage: string,
-) => {
+export const GetEmailFrame = (journey_id: string, frame_id: string, next_frame_id: string, productImage: string) => {
   const EMAIL_FRAME: FrameMetadataType = {
     buttons: [
       {
@@ -95,7 +84,7 @@ export const GetEmailFrame = async (
   return EMAIL_FRAME;
 };
 
-export const GetBuyFrame = async (journey_id: string, frame_id: string, next_frame_id: string) => {
+export const GetBuyFrame = (journey_id: string, frame_id: string, next_frame_id: string) => {
   const newTxFrame = {
     buttons: [
       {
@@ -119,7 +108,7 @@ export const GetBuyFrame = async (journey_id: string, frame_id: string, next_fra
   return newTxFrame;
 };
 
-export const GetSuccessFrame = async (journey_id: string, frame_id: string) => {
+export const GetSuccessFrame = (journey_id: string, frame_id: string) => {
   const SUCCESS_FRAME: FrameMetadataType = {
     image: {
       src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW_BNf9b9fUN735sATwS1OfxlfV-LD9RhVMA&s",
