@@ -5,14 +5,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 import { createJourney } from "~~/services/frames";
 import { initGitcoinJourney } from "~~/services/frames/initScript";
-import { scrapeGitCoinURL } from "~~/services/scrape-gitcoin";
 import { notification } from "~~/utils/scaffold-eth";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
+export const NODEJS_SERVER = "https://puppeteer-render-807e.onrender.com";
 const GitCoinTemplate: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const { address } = useAccount();
   const [gitcoinUrl, setGitcoinUrl] = useState("");
@@ -57,7 +56,15 @@ const GitCoinTemplate: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   });
   const handleGitCoin = useMutation({
     mutationFn: async (url: string) => {
-      const data = await scrapeGitCoinURL(url);
+      const response = await fetch(`${NODEJS_SERVER}/scrape?url=${encodeURIComponent(url)}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
       return data;
     },
     onSuccess: (data: any) => {

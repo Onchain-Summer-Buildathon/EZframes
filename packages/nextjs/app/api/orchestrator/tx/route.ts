@@ -19,14 +19,15 @@ export async function POST(req: NextRequest): Promise<NextResponse<FrameTransact
   } else {
     journey = await getJourneyById(journeyId);
   }
-  const address = journey.walletAddress || myAddress;
+  console.log({ journey });
+  const address = myAddress;
   const callData = encodeFunctionData({
     abi: ABI,
     functionName: "trf",
-    args: [address, parseEther("0.001eth"), BigInt(untrustedData?.inputText || 1)],
+    args: [address, parseEther("0.001"), BigInt(untrustedData?.inputText || 1)],
   });
   return NextResponse.json({
-    chainId: "eip155:84532",
+    chainId: "eip155:137",
     method: "eth_sendTransaction",
     params: {
       abi: ABI,
