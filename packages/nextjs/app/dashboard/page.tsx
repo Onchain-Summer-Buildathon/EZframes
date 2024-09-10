@@ -4,30 +4,20 @@ import { useState } from "react";
 import { ArrowRightIcon } from "@dynamic-labs/sdk-react-core";
 import { useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
-import { ChevronDownIcon, ChevronUpIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import GitCoinTemplate from "~~/components/GitcoinModal";
 import ProductCard from "~~/components/ProductCard";
-import ProductModal from "~~/components/ProductModal";
 import ProductTemplate from "~~/components/ProductTemplate";
 import { getAllTemplates } from "~~/services/frames";
 import { Journey } from "~~/types/commontypes";
 
 const MyFrames = ({ frames }: any) => {
-  const [open, setOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const displayedTemplates = showAll ? frames.data : frames.data.slice(0, 4);
   return (
     <div className="flex flex-col justify-start items-start w-full gap-2 p-2">
       <div className="flex items-center gap-4 ">
         <p className="font-bold text-2xl">My Frames</p>
-        <button
-          className="p-2 border border-gray-300 rounded-full bg-white hover:bg-gray-100 shadow-md focus:outline-none focus:ring-2 focus:ring-gray-200"
-          onClick={() => {
-            setOpen(!open);
-          }}
-        >
-          <PlusIcon className="h-4 w-4 text-gray-700" />
-        </button>
         {frames.data.length >= 5 && (
           <button
             className="p-2 border border-gray-300 rounded-full bg-white hover:bg-gray-100 shadow-md focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -51,8 +41,6 @@ const MyFrames = ({ frames }: any) => {
           />
         ))}
       </div>
-
-      {open && <ProductModal isOpen={open} onClose={() => setOpen(false)} />}
     </div>
   );
 };

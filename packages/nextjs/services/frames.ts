@@ -5,7 +5,7 @@ export const getFrameById = async (id: string) => {
   try {
     const response = await fetch(`/api/frame/${id}`);
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error("Fetching frame by ID failed");
     }
     const data = await response.json();
     return data;
@@ -19,7 +19,7 @@ export const getFrameAtServer = async (id: string) => {
   try {
     const response = await fetch(`${APP_URL}/api/frame/${id}`);
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error("Fetching frame by ID failed");
     }
     const data = await response.json();
     return data;
@@ -65,12 +65,6 @@ export const createJourney = async (journey: Partial<Journey>) => {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    // const newJourney = await initJourneyWithFrames(
-    //   data._id as string,
-    //   journey.price as string,
-    //   journey.desc as string,
-    //   journey.image as string,
-    // );
     return data;
   } catch (error: any) {
     console.error(error);
