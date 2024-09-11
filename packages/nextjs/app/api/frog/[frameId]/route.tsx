@@ -3,7 +3,7 @@ import { Frog } from "frog";
 import { devtools } from "frog/dev";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
-import { getFrameById } from "~~/services/frames";
+import { getFrameAtServer } from "~~/services/frames";
 
 const app = new Frog({
   basePath: "/api/frog",
@@ -16,7 +16,7 @@ app.frame(`/:frameId`, async c => {
     throw new Error("Invalid frame ID");
   }
   return c.res({
-    ...(await getFrameById(frameId[1])),
+    ...(await getFrameAtServer(frameId[1])),
     headers: {
       "Cache-Control": "max-age=0",
     },
