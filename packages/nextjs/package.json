@@ -39,6 +39,8 @@
     "cheerio": "^1.0.0",
     "daisyui": "4.5.0",
     "ethers": "5.7.2",
+    "frog": "^0.17.2",
+    "hono": "^4.6.1",
     "html-react-parser": "^5.1.12",
     "mongoose": "^8.5.1",
     "next": "^14.0.4",

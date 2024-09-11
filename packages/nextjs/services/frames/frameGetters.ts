@@ -1,7 +1,7 @@
 import { FrameMetadataType } from "@coinbase/onchainkit";
 import { APP_URL, DEFAULT_FRAME } from "~~/constants";
 
-export const GetDefaultFrame = async (journey_id: string) => {
+export const GetDefaultFrame = (journey_id: string) => {
   const frame: FrameMetadataType = DEFAULT_FRAME;
   if (frame.state) {
     // @ts-ignore
