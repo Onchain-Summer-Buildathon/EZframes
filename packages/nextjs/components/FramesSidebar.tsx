@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { TRIAL_FRAME } from "~~/constants";
 import { useProductJourney } from "~~/providers/ProductProvider";
 import { getFrameById } from "~~/services/frames";
 import { GetDefaultFrame } from "~~/services/frames/frameGetters";
 import { Frame } from "~~/types/commontypes";
+import { makeFrogFrame } from "~~/utils/general";
 
 const thumbnailImageStyle = {
   width: "100%",
@@ -63,10 +65,11 @@ function FrameSidebar() {
   const onCreate = async () => {
     await createFrame.mutateAsync({
       name: "Frame",
-      frameJson: await GetDefaultFrame(productID),
+      frameJson: GetDefaultFrame(productID),
     });
   };
   if (!frames) return null;
+  const trialFrame = makeFrogFrame(TRIAL_FRAME);
   return (
     <div className="bg-white flex flex-col p-4 h-[100%]">
       <div style={sidebarStyle as React.CSSProperties}>
@@ -81,7 +84,9 @@ function FrameSidebar() {
             }}
           >
             {/*@ts-ignore*/}
-            <img src={slide?.frameJson?.image.src} alt={slide?.name} style={thumbnailImageStyle} />
+            {trialFrame.image.type === "html" && <div style={thumbnailImageStyle}>{trialFrame.image.content}</div>}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {trialFrame.image.type === "src" && <img src={trialFrame.image.src} alt="Product" />}
             <div style={{ alignItems: "center", justifyContent: "center", display: "flex", marginTop: "-0px" }}>
               {slide.name}
             </div>

@@ -49,11 +49,14 @@ export const TRIAL_FRAME = {
   image: {
     type: "html",
     style: {
+      backgroundColor: "white",
+      borderRadius: "10px",
+      border: "1px solid #ccc",
       color: "black",
-      height: "300px",
-      width: "300px",
       display: "flex",
+      justifyContent: "center",
       fontSize: 60,
+      textAlign: "center",
     },
     content: `Select your fruit!`,
   },
