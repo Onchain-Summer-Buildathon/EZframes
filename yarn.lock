@@ -4053,7 +4053,6 @@ __metadata:
     ethers: "npm:5.7.2"
     frog: "npm:^0.17.2"
     hono: "npm:^4.6.1"
-    html-react-parser: "npm:^5.1.12"
     mongoose: "npm:^8.5.1"
     next: "npm:^14.0.4"
     next-themes: "npm:^0.2.1"
@@ -8415,7 +8414,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"domhandler@npm:5.0.3, domhandler@npm:^5.0.2, domhandler@npm:^5.0.3":
+"domhandler@npm:^5.0.2, domhandler@npm:^5.0.3":
   version: 5.0.3
   resolution: "domhandler@npm:5.0.3"
   dependencies:
@@ -11186,16 +11185,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-dom-parser@npm:5.0.9":
-  version: 5.0.9
-  resolution: "html-dom-parser@npm:5.0.9"
-  dependencies:
-    domhandler: "npm:5.0.3"
-    htmlparser2: "npm:9.1.0"
-  checksum: 10c0/d440520dbc1b2f295af70292d409435c89f5b5cb2f0d370722e76ddad473cb3ab750c4e4db2c3625ca4e469f5638a5aef716d31874c3b001d964cdbdcf090736
-  languageName: node
-  linkType: hard
-
 "html-parse-stringify@npm:^3.0.1":
   version: 3.0.1
   resolution: "html-parse-stringify@npm:3.0.1"
@@ -11205,25 +11194,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-react-parser@npm:^5.1.12":
-  version: 5.1.12
-  resolution: "html-react-parser@npm:5.1.12"
-  dependencies:
-    domhandler: "npm:5.0.3"
-    html-dom-parser: "npm:5.0.9"
-    react-property: "npm:2.0.2"
-    style-to-js: "npm:1.1.12"
-  peerDependencies:
-    "@types/react": 0.14 || 15 || 16 || 17 || 18
-    react: 0.14 || 15 || 16 || 17 || 18
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: 10c0/2979bfb5934d65608c7ceb50325b36a7901a674ee8ac3a765b08d61d5fd396870d9061aa6c63cf44291a566fc5bc451d80a9f9d92ef89ed5fef7e0a8036be9cd
-  languageName: node
-  linkType: hard
-
-"htmlparser2@npm:9.1.0, htmlparser2@npm:^9.1.0":
+"htmlparser2@npm:^9.1.0":
   version: 9.1.0
   resolution: "htmlparser2@npm:9.1.0"
   dependencies:
@@ -11505,13 +11476,6 @@ __metadata:
   version: 1.3.8
   resolution: "ini@npm:1.3.8"
   checksum: 10c0/ec93838d2328b619532e4f1ff05df7909760b6f66d9c9e2ded11e5c1897d6f2f9980c54dd638f88654b00919ce31e827040631eab0a3969e4d1abefa0719516a
-  languageName: node
-  linkType: hard
-
-"inline-style-parser@npm:0.2.3":
-  version: 0.2.3
-  resolution: "inline-style-parser@npm:0.2.3"
-  checksum: 10c0/21b46d39a39c8aeaa738346650469388e8a412dd276ab75aa3d85b1883311e89c86a1fdbb8c2f1958f4c979bae74067f6ba0385455b125faf4fa77e1dbb94799
   languageName: node
   linkType: hard
 
@@ -15038,13 +15002,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-property@npm:2.0.2":
-  version: 2.0.2
-  resolution: "react-property@npm:2.0.2"
-  checksum: 10c0/27a3dfa68d29d45fc3582552715203291d26c6f1b228fdb6775e7ca19b10753141dbe98a0aa3a4da745b39fcd7427dc2d623055e63742062231ee18692a6f0fa
-  languageName: node
-  linkType: hard
-
 "react-remove-scroll-bar@npm:^2.3.4":
   version: 2.3.6
   resolution: "react-remove-scroll-bar@npm:2.3.6"
@@ -16688,24 +16645,6 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 10c0/9681a6257b925a7fa0f285851c0e613cc934a50661fa7bb41ca9cbbff89686bb4a0ee366e6ecedc4daafd01e83eee0720111ab294366fe7c185e935475ebcecd
-  languageName: node
-  linkType: hard
-
-"style-to-js@npm:1.1.12":
-  version: 1.1.12
-  resolution: "style-to-js@npm:1.1.12"
-  dependencies:
-    style-to-object: "npm:1.0.6"
-  checksum: 10c0/4b03ac3cec5d0e4c2578513dfbae9861eb9fb56825bccfd64bddcdf067e66805d6f160b93d2985aad4198893940fa162c4c85c3969e13ba2662a5824231c009c
-  languageName: node
-  linkType: hard
-
-"style-to-object@npm:1.0.6":
-  version: 1.0.6
-  resolution: "style-to-object@npm:1.0.6"
-  dependencies:
-    inline-style-parser: "npm:0.2.3"
-  checksum: 10c0/be5e8e3f0e35c0338de4112b9d861db576a52ebbd97f2501f1fb2c900d05c8fc42c5114407fa3a7f8b39301146cd8ca03a661bf52212394125a9629d5b771aba
   languageName: node
   linkType: hard
 
