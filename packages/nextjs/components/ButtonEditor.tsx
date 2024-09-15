@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CustomButton from "./Button/CustomButton";
 import { FrameButtonMetadata } from "@coinbase/onchainkit";
 import { MenuItem, Select, TextField } from "@mui/material";
+import { APP_URL } from "~~/constants";
 import { useProductJourney } from "~~/providers/ProductProvider";
 import { getFrameById, removeUrl } from "~~/services/frames";
 import { Frame, Intent } from "~~/types/commontypes";
@@ -13,7 +14,6 @@ interface ButtonEditorProps {
 }
 
 const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
-  console.log({ onSave });
   const { frames: dbFrames, frame } = useProductJourney();
   const [frames, setFrames] = useState<Frame[] | undefined>();
 
@@ -30,11 +30,26 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
       <label htmlFor="buttonType" className="block text-sm font-medium text-gray-700 mb-1">
         Button Label
       </label>
-      <TextField id="buttonLabel" size="small" value={button.content as string} />
+      <TextField
+        id="buttonLabel"
+        size="small"
+        value={button.content as string}
+        onChange={e => {
+          onSave({ ...button, content: e.target.value as string });
+        }}
+      />
       <label htmlFor="buttonType" className="block text-sm font-medium text-gray-700 mb-1">
         Button Type
       </label>
-      <Select id="buttonType" value={button.type} variant="outlined" size="small">
+      <Select
+        id="buttonType"
+        value={button.type}
+        onChange={e => {
+          onSave({ ...button, type: e.target.value as string });
+        }}
+        variant="outlined"
+        size="small"
+      >
         <MenuItem value="Button">Button</MenuItem>
         <MenuItem value="Button.Link">Link</MenuItem>
         <MenuItem value="Button.Mint">Mint</MenuItem>
@@ -47,11 +62,29 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
           <label htmlFor="buttonType" className="block text-sm font-medium text-gray-700 mb-1">
             Button Value
           </label>
-          <TextField id="buttonValue" size="small" value={button.props.value as string} />
+          <TextField
+            id="buttonValue"
+            size="small"
+            value={button.props.value as string}
+            onChange={e => {
+              onSave({ ...button, props: { ...button.props, value: e.target.value as string } });
+            }}
+          />
           <label htmlFor="buttonType" className="block text-sm font-medium text-gray-700 mb-1">
             Next Frame
           </label>
-          <Select id="post" size="small" value={removeUrl(button.props.action as string)} variant="outlined">
+          <Select
+            id="post"
+            size="small"
+            value={removeUrl(button.props.action as string)}
+            variant="outlined"
+            onChange={e =>
+              onSave({
+                ...button,
+                action: (`${APP_URL}/api/orchestrator/` + e.target.value) as FrameButtonMetadata["target"],
+              })
+            }
+          >
             {frames?.map(
               (f, index) =>
                 f._id !== frame?._id && (
@@ -68,7 +101,14 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
           <label htmlFor="buttonHref" className="block text-sm font-medium text-gray-700 mb-1">
             Button href
           </label>
-          <TextField id="buttonHref" size="small" value={button.props.href as string} />
+          <TextField
+            id="buttonHref"
+            size="small"
+            value={button.props.href as string}
+            onChange={e => {
+              onSave({ ...button, props: { ...button.props, href: e.target.value as string } });
+            }}
+          />
         </>
       )}
       {button.type === "Button.Mint" && (
@@ -76,7 +116,14 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
           <label htmlFor="buttonMint" className="block text-sm font-medium text-gray-700 mb-1">
             Mint Target
           </label>
-          <TextField id="buttonMint" size="small" value={button.props.target as string} />
+          <TextField
+            id="buttonMint"
+            size="small"
+            value={button.props.target as string}
+            onChange={e => {
+              onSave({ ...button, props: { ...button.props, target: e.target.value as string } });
+            }}
+          />
         </>
       )}
       {button.type === "Button.Location" && (
@@ -84,7 +131,14 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
           <label htmlFor="buttonLocation" className="block text-sm font-medium text-gray-700 mb-1">
             Button Location
           </label>
-          <TextField id="buttonLocation" size="small" value={button.props.location as string} />
+          <TextField
+            id="buttonLocation"
+            size="small"
+            value={button.props.location as string}
+            onChange={e => {
+              onSave({ ...button, props: { ...button.props, location: e.target.value as string } });
+            }}
+          />
         </>
       )}
       {button.type === "Button.Transaction" && (
@@ -92,7 +146,18 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
           <label htmlFor="buttonTx" className="block text-sm font-medium text-gray-700 mb-1">
             Tx Success
           </label>
-          <Select id="post" size="small" value={removeUrl(button.props.action as string)} variant="outlined">
+          <Select
+            id="post"
+            size="small"
+            value={removeUrl(button.props.action as string)}
+            variant="outlined"
+            onChange={e =>
+              onSave({
+                ...button,
+                action: (`${APP_URL}/api/orchestrator/` + e.target.value) as FrameButtonMetadata["target"],
+              })
+            }
+          >
             {frames?.map(
               (f, index) =>
                 f._id !== frame?._id && (
