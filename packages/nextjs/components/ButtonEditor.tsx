@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
-import InputField from "./InputField";
 import { FrameButtonMetadata } from "@coinbase/onchainkit";
-import { IconButton, MenuItem, Select, TextField } from "@mui/material";
+import { Button, MenuItem, Select, TextField } from "@mui/material";
 import { TrashIcon } from "@heroicons/react/24/outline";
-import { APP_URL } from "~~/constants";
 import { useProductJourney } from "~~/providers/ProductProvider";
 import { getFrameById, removeUrl } from "~~/services/frames";
-import { Frame } from "~~/types/commontypes";
+import { Frame, Intent } from "~~/types/commontypes";
 
 interface ButtonEditorProps {
-  button: FrameButtonMetadata;
+  button: Intent;
   onSave: (button: FrameButtonMetadata) => void;
   onDelete: () => void;
 }
 
 const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
+  console.log({ onSave });
   const { frames: dbFrames, frame } = useProductJourney();
   const [frames, setFrames] = useState<Frame[] | undefined>();
 
@@ -28,78 +27,31 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2 mt-4">
-        <InputField
-          id="buttonLabel"
-          label="Edit Button Label"
-          value={button.label}
-          onChange={label => onSave({ ...button, label })}
-          placeholder="Button Label"
-        />
-        <IconButton onClick={onDelete}>
-          <TrashIcon className="w-4 h-4 text-gray-700 border-2 border-black" />
-        </IconButton>
-      </div>
-      <label htmlFor="buttonAction" className="block text-sm font-medium text-gray-700 mb-1">
-        Edit Button Action
+      <label htmlFor="buttonType" className="block text-sm font-medium text-gray-700 mb-1">
+        Button Label
       </label>
-      <Select
-        id="buttonAction"
-        value={button.action}
-        // @ts-ignore
-        onChange={e => onSave({ ...button, action: e.target.value as FrameButtonMetadata["action"] })}
-        variant="outlined"
-      >
-        <MenuItem value="tx">Transaction</MenuItem>
-        <MenuItem value="post">Post</MenuItem>
-        <MenuItem value="link">Link</MenuItem>
+      <TextField id="buttonLabel" size="small" value={button.content as string} />
+      <label htmlFor="buttonType" className="block text-sm font-medium text-gray-700 mb-1">
+        Button Type
+      </label>
+      <Select id="buttonType" value={button.type} variant="outlined" size="small">
+        <MenuItem value="Button">Button</MenuItem>
+        <MenuItem value="Button.Link">Link</MenuItem>
+        <MenuItem value="Button.Mint">Mint</MenuItem>
+        <MenuItem value="Button.Reset">Reset</MenuItem>
+        <MenuItem value="Button.Location">Location</MenuItem>
+        <MenuItem value="Button.Transaction">Transaction</MenuItem>
       </Select>
-      {button.action === "post" && (
-        <Select
-          id="post"
-          value={removeUrl(button.target as string)}
-          onChange={e =>
-            onSave({
-              ...button,
-              target: (`${APP_URL}/api/orchestrator/` + e.target.value) as FrameButtonMetadata["target"],
-            })
-          }
-          variant="outlined"
-        >
-          {frames?.map(
-            (f, index) =>
-              f._id !== frame?._id && (
-                <MenuItem key={index} value={f._id}>
-                  {f.name}
-                </MenuItem>
-              ),
-          )}
-        </Select>
-      )}
-      {button.action === "link" && (
-        <TextField
-          id="link"
-          label="Enter Link"
-          variant="outlined"
-          value={button.target}
-          onChange={e => onSave({ ...button, target: e.target.value })}
-          fullWidth
-        />
-      )}
-      {button.action === "tx" && (
+      {button.type === "Button" && (
         <>
-          <Select
-            id="post"
-            value={removeUrl(button.postUrl as string)}
-            onChange={e =>
-              onSave({
-                ...button,
-                postUrl: `${APP_URL}/api/orchestrator/` + e.target.value,
-                target: `${APP_URL}/api/orchestrator/tx`,
-              })
-            }
-            variant="outlined"
-          >
+          <label htmlFor="buttonType" className="block text-sm font-medium text-gray-700 mb-1">
+            Button Value
+          </label>
+          <TextField id="buttonValue" size="small" value={button.props.value as string} />
+          <label htmlFor="buttonType" className="block text-sm font-medium text-gray-700 mb-1">
+            Next Frame
+          </label>
+          <Select id="post" size="small" value={removeUrl(button.props.action as string)} variant="outlined">
             {frames?.map(
               (f, index) =>
                 f._id !== frame?._id && (
@@ -111,6 +63,51 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
           </Select>
         </>
       )}
+      {button.type === "Button.Link" && (
+        <>
+          <label htmlFor="buttonHref" className="block text-sm font-medium text-gray-700 mb-1">
+            Button href
+          </label>
+          <TextField id="buttonHref" size="small" value={button.props.href as string} />
+        </>
+      )}
+      {button.type === "Button.Mint" && (
+        <>
+          <label htmlFor="buttonMint" className="block text-sm font-medium text-gray-700 mb-1">
+            Mint Target
+          </label>
+          <TextField id="buttonMint" size="small" value={button.props.target as string} />
+        </>
+      )}
+      {button.type === "Button.Location" && (
+        <>
+          <label htmlFor="buttonLocation" className="block text-sm font-medium text-gray-700 mb-1">
+            Button Location
+          </label>
+          <TextField id="buttonLocation" size="small" value={button.props.location as string} />
+        </>
+      )}
+      {button.type === "Button.Transaction" && (
+        <>
+          <label htmlFor="buttonTx" className="block text-sm font-medium text-gray-700 mb-1">
+            Tx Success
+          </label>
+          <Select id="post" size="small" value={removeUrl(button.props.action as string)} variant="outlined">
+            {frames?.map(
+              (f, index) =>
+                f._id !== frame?._id && (
+                  <MenuItem key={index} value={f._id}>
+                    {f.name}
+                  </MenuItem>
+                ),
+            )}
+          </Select>
+        </>
+      )}
+      <Button onClick={() => onDelete()} variant="contained" className="flex bg-red items-center gap-2 text-red-500">
+        Delete Button
+        <TrashIcon className="h-4 w-4" />
+      </Button>
     </div>
   );
 };

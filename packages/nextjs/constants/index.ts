@@ -72,7 +72,7 @@ export const TRIAL_FRAME = {
       label: "Google",
     },
     {
-      type: "Button",
+      type: "Button.Transaction",
       value: "mango",
       label: "Mango",
     },

@@ -7,7 +7,7 @@ function FrameRender() {
   if (!currentFrame) return null;
   const frame = makeFrogFrame(TRIAL_FRAME);
   const textInput = frame.intents.find((intent: any) => intent.type === "TextInput");
-  const buttons = frame.intents.filter((intent: any) => intent.type === "Button");
+  const buttons = frame.intents.filter((intent: any) => intent.type.includes("Button"));
   return (
     <>
       {/*@ts-ignore */}

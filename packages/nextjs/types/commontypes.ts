@@ -24,8 +24,17 @@ type IntentProps = {
   location?: string;
 };
 
-type Intent = {
-  type: string; // Can specify more types if necessary, e.g., "Button" | "Button.Link" | "TextInput"
+type IntentType =
+  | "Button"
+  | "Button.Link"
+  | "Button.Mint"
+  | "Button.Transaction"
+  | "Button.Reset"
+  | "Button.Location"
+  | "TextInput";
+
+export type Intent = {
+  type: IntentType;
   props: IntentProps;
   content?: string; // Content corresponds to the label or text displayed
 };

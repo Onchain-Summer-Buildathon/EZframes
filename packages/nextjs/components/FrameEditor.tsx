@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import ButtonList from "./ButtonsList";
 import InputField from "./InputField";
 import { MenuItem, Select, TextField } from "@mui/material";
+import { TRIAL_FRAME } from "~~/constants";
 import { useProductJourney } from "~~/providers/ProductProvider";
+import { makeFrogFrame } from "~~/utils/general";
 
 const FrameEditor = () => {
   const { frame, setFrame, currentFrame, setCurrentFrame } = useProductJourney();
@@ -55,11 +57,14 @@ const FrameEditor = () => {
     setImageUrl(currentFrame?.image?.src || "");
   }, [currentFrame]);
   if (!currentFrame) return null;
+  const frogFrame = makeFrogFrame(TRIAL_FRAME);
+  const textInput = frogFrame.intents.find(intent => intent.type === "TextInput");
   return (
-    <div className="bg-white flex flex-col gap-4 p-4">
+    <div className="bg-white flex flex-col gap-4 p-4 h-[100%]">
+      <label className="block text-sm font-medium text-gray-700">Frame Name</label>
       <TextField
+        size="small"
         id="outlined-basic"
-        label="Frame Name"
         variant="outlined"
         value={frame?.name}
         fullWidth
@@ -107,21 +112,29 @@ const FrameEditor = () => {
           </button>
         </div>
       )}
-      <InputField
-        id="additionalInput"
-        label="Enter Additional Input"
-        value={currentFrame?.input?.text || ""}
-        onChange={value => {
-          setCurrentFrame({
-            ...currentFrame,
-            input: {
-              ...currentFrame?.input,
-              text: value,
-            },
-          });
-        }}
-        placeholder="Additional Input"
-      />
+      {textInput && (
+        <>
+          <label htmlFor="additionalInput" className="block text-sm font-medium text-gray-700">
+            Text Input
+          </label>
+          <TextField
+            size="small"
+            id="additionalInput"
+            value=""
+            onChange={e => {
+              setCurrentFrame({
+                ...currentFrame,
+                input: {
+                  ...currentFrame?.input,
+                  text: e.target.value,
+                },
+              });
+            }}
+            // @ts-ignore
+            placeholder={textInput.props.placeholder}
+          />
+        </>
+      )}
       <ButtonList />
     </div>
   );

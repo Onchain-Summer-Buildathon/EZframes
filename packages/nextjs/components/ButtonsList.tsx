@@ -4,7 +4,9 @@ import FarcasterModal from "./FarcasterModal";
 import { FrameButtonMetadata, FrameMetadataType } from "@coinbase/onchainkit";
 import { IconButton } from "@mui/material";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { TRIAL_FRAME } from "~~/constants";
 import { useProductJourney } from "~~/providers/ProductProvider";
+import { makeFrogFrame } from "~~/utils/general";
 import { notification } from "~~/utils/scaffold-eth";
 
 const ButtonList = () => {
@@ -69,9 +71,12 @@ const ButtonList = () => {
     });
     setActiveButtonIndex(0);
   };
+  const frogFrame = makeFrogFrame(TRIAL_FRAME);
+  const buttons = frogFrame.intents.filter(intent => intent.type.includes("Button"));
+  if (!buttons) return null;
   return (
-    <div className="mb-4 flex flex-col gap-2">
-      <div className="flex items-center  gap-2">
+    <div className="mb-4 flex flex-col gap-4">
+      <div className="flex items-center">
         <label htmlFor="buttons" className="block text-sm font-medium text-gray-700 ">
           Buttons
         </label>
@@ -83,15 +88,23 @@ const ButtonList = () => {
         )}
       </div>
       <div className="flex flex-wrap gap-2">
-        {currentFrame?.buttons?.map((button, index) => (
-          <button key={index} className="btn btn-primary" onClick={() => handleButtonClick(index)}>
-            {button.label}
+        {buttons.map((button, index) => (
+          <button
+            key={index}
+            className="btn bg-black rounded-md text-white px-4 py-2"
+            style={{
+              flex: "1 1 0px",
+              cursor: "pointer",
+            }}
+            onClick={() => handleButtonClick(index)}
+          >
+            {button.content}
           </button>
         ))}
       </div>
       {/* @ts-ignore */}
       {currentFrame?.buttons[activeButtonIndex] && (
-        <ButtonEditor button={currentFrame.buttons[activeButtonIndex]} onSave={handleSave} onDelete={handleDelete} />
+        <ButtonEditor button={buttons[activeButtonIndex]} onSave={handleSave} onDelete={handleDelete} />
       )}
       <div className="flex items-center">
         <button
