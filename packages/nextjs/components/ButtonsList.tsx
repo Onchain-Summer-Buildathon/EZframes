@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CustomButton from "./Button/CustomButton";
 import ButtonEditor from "./ButtonEditor";
 import FarcasterModal from "./FarcasterModal";
 import { FrameButtonMetadata, FrameMetadataType } from "@coinbase/onchainkit";
@@ -107,17 +108,20 @@ const ButtonList = () => {
         <ButtonEditor button={buttons[activeButtonIndex]} onSave={handleSave} onDelete={handleDelete} />
       )}
       <div className="flex items-center">
-        <button
+        <CustomButton
+          // @ts-ignore
           onClick={() => {
             deleteFrame.mutateAsync(frame?._id as string);
           }}
-          className="btn btn-error mt-2 flex items-center justify-center"
+          buttonType="delete"
+          variant="contained"
+          size="small"
         >
           Delete Frame
-        </button>
-        <button onClick={handleSaveFrame} className="btn btn-success  mt-2 flex items-center justify-center">
+        </CustomButton>
+        <CustomButton buttonType="success" variant="contained" size="small" onClick={handleSaveFrame}>
           Save Frame
-        </button>
+        </CustomButton>
         <button onClick={() => setOpen(!open)} className="btn btn-primary mt-2 flex items-center justify-center">
           Export Product
         </button>

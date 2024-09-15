@@ -77,9 +77,10 @@ const FrameEditor = () => {
         }}
       />
       <label htmlFor="imageInput" className="block text-sm font-medium text-gray-700">
-        Image/Text{" "}
+        Image Type
       </label>
       <Select
+        size="small"
         id="imageInput"
         value={imageUrlOption}
         onChange={e => {
@@ -88,16 +89,21 @@ const FrameEditor = () => {
         variant="outlined"
       >
         <MenuItem value="url">URL</MenuItem>
-        <MenuItem value="html">TEXT</MenuItem>
-      </Select>{" "}
+        <MenuItem value="html">HTML</MenuItem>
+      </Select>
       {imageUrlOption === "url" ? (
-        <InputField
-          id="imageUrl"
-          label="Enter Image URL"
-          value={imageUrl}
-          onChange={value => handleImageUrlChange(value)}
-          placeholder="Image URL"
-        />
+        <>
+          <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">
+            Image URL
+          </label>
+          <TextField
+            size="small"
+            id="imageUrl"
+            value={imageUrl}
+            onChange={e => handleImageUrlChange(e.target.value)}
+            placeholder="Image URL"
+          />
+        </>
       ) : (
         <div className="flex flex-col gap-2">
           <InputField

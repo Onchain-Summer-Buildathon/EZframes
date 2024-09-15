@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import CustomButton from "./Button/CustomButton";
 import { FrameButtonMetadata } from "@coinbase/onchainkit";
-import { Button, MenuItem, Select, TextField } from "@mui/material";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { MenuItem, Select, TextField } from "@mui/material";
 import { useProductJourney } from "~~/providers/ProductProvider";
 import { getFrameById, removeUrl } from "~~/services/frames";
 import { Frame, Intent } from "~~/types/commontypes";
@@ -104,10 +104,9 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
           </Select>
         </>
       )}
-      <Button onClick={() => onDelete()} variant="contained" className="flex bg-red items-center gap-2 text-red-500">
+      <CustomButton buttonType="delete" variant="contained" onClick={onDelete} size="small">
         Delete Button
-        <TrashIcon className="h-4 w-4" />
-      </Button>
+      </CustomButton>
     </div>
   );
 };
