@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from "react";
 import ButtonList from "./ButtonsList";
-import InputField from "./InputField";
 import { MenuItem, Select, TextField } from "@mui/material";
-import { TRIAL_FRAME } from "~~/constants";
 import { useProductJourney } from "~~/providers/ProductProvider";
-import { makeFrogFrame } from "~~/utils/general";
 
 const FrameEditor = () => {
   const { frame, setFrame, currentFrame, setCurrentFrame } = useProductJourney();
   const [imageUrlOption, setImageUrlOption] = useState("url");
-  const [htmlInput, setHtmlInput] = useState("");
+  // const [htmlInput, setHtmlInput] = useState("");
   // @ts-ignore
-  const [imageUrl, setImageUrl] = useState(currentFrame?.image?.src || "");
-  const getImageResponse = async (html: string) => {
-    const response = await fetch(`/api/imageGeneration`, {
-      body: JSON.stringify({ html }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    });
-    const data = await response.json();
-    return data.url;
-  };
+  const [imageUrl, setImageUrl] = useState(currentFrame?.image.src || "");
+  // const getImageResponse = async (html: string) => {
+  //   const response = await fetch(`/api/imageGeneration`, {
+  //     body: JSON.stringify({ html }),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     method: "POST",
+  //   });
+  //   const data = await response.json();
+  //   return data.url;
+  // };
+  const [textInput, setTextInput] = useState<any>(undefined);
 
   const handleImageUrlChange = (value: string) => {
     setImageUrl(value);
@@ -30,35 +28,29 @@ const FrameEditor = () => {
     setCurrentFrame({
       ...currentFrame,
       image: {
-        // @ts-ignore
-        ...currentFrame?.image,
+        type: "src",
         src: value,
-        aspectRatio: "1:1",
       },
     });
   };
 
-  const handleHtmlToImage = async () => {
-    const result = await getImageResponse(htmlInput);
-    setImageUrl(result);
-    if (!currentFrame) return;
-    setCurrentFrame({
-      ...currentFrame,
-      image: {
-        // @ts-ignore
-        ...currentFrame.image,
-        src: result,
-        aspectRatio: "1:1",
-      },
-    });
-  };
+  // const handleHtmlToImage = async () => {
+  //   const result = await getImageResponse(htmlInput);
+  //   setImageUrl(result);
+  //   if (!currentFrame) return;
+  //   setCurrentFrame({
+  //     ...currentFrame,
+  //     image: {
+  //       type: "html",
+  //       content: htmlInput,
+  //     },
+  //   });
+  // };
   useEffect(() => {
-    // @ts-ignore
     setImageUrl(currentFrame?.image?.src || "");
+    setTextInput(currentFrame?.intents.find(intent => intent.type === "TextInput"));
   }, [currentFrame]);
   if (!currentFrame) return null;
-  const frogFrame = makeFrogFrame(TRIAL_FRAME);
-  const textInput = frogFrame.intents.find(intent => intent.type === "TextInput");
   return (
     <div className="bg-white flex flex-col gap-4 p-4 h-[100%]">
       <label className="block text-sm font-medium text-gray-700">Frame Name</label>
@@ -105,20 +97,9 @@ const FrameEditor = () => {
           />
         </>
       ) : (
-        <div className="flex flex-col gap-2">
-          <InputField
-            id="htmlInput"
-            label="Enter Text"
-            value={htmlInput}
-            onChange={value => setHtmlInput(value)}
-            placeholder="HTML Code"
-          />
-          <button onClick={handleHtmlToImage} className="btn btn-primary">
-            Convert Text to Image
-          </button>
-        </div>
+        <div className="flex flex-col gap-2">Coming soon!</div>
       )}
-      {textInput && (
+      {textInput ? (
         <>
           <label htmlFor="additionalInput" className="block text-sm font-medium text-gray-700">
             Text Input
@@ -126,20 +107,49 @@ const FrameEditor = () => {
           <TextField
             size="small"
             id="additionalInput"
-            value=""
+            value={textInput.props.placeholder}
             onChange={e => {
+              if (e.target.value === "") {
+                setTextInput(undefined);
+              }
               setCurrentFrame({
                 ...currentFrame,
-                input: {
-                  ...currentFrame?.input,
-                  text: e.target.value,
-                },
+                intents: currentFrame.intents.map(intent => {
+                  if (intent.type === "TextInput") {
+                    return {
+                      ...intent,
+                      props: {
+                        ...intent.props,
+                        placeholder: e.target.value,
+                      },
+                    };
+                  }
+                  return intent;
+                }),
               });
             }}
-            // @ts-ignore
-            placeholder={textInput.props.placeholder}
           />
         </>
+      ) : (
+        <button
+          className="btn bg-black rounded-md text-white px-4 py-2"
+          onClick={() => {
+            setCurrentFrame({
+              ...currentFrame,
+              intents: [
+                ...currentFrame.intents,
+                {
+                  type: "TextInput",
+                  props: {
+                    placeholder: "Enter text here",
+                  },
+                },
+              ],
+            });
+          }}
+        >
+          Add Text Input
+        </button>
       )}
       <ButtonList />
     </div>

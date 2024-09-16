@@ -26,12 +26,7 @@ export const makeFrogFrame = (frame: { image: any; intents: any }) => {
     return {
       type: intent.type,
       props: {
-        value: intent.value,
-        action: intent?.action,
-        placeholder: intent?.placeholder,
-        target: intent?.target,
-        href: intent?.href,
-        location: intent?.location,
+        ...intent.props,
       },
       content: intent.label,
     };

@@ -47,7 +47,8 @@ export const DEFAULT_FRAME = {
 
 export const TRIAL_FRAME = {
   image: {
-    type: "html",
+    type: "src",
+    src: "https://placehold.co/600x400",
     style: {
       backgroundColor: "white",
       borderRadius: "10px",
@@ -63,20 +64,26 @@ export const TRIAL_FRAME = {
   intents: [
     {
       type: "Button",
-      value: "apple",
-      label: "DIDNT ASKKKK",
+      props: {
+        value: "apple",
+      },
+      content: "DIDNT ASKKKK",
     },
     {
       type: "Button.Link",
-      href: "https://google.com",
-      label: "Google",
+      props: {
+        href: "https://google.com",
+      },
+      content: "Google",
     },
     {
       type: "Button.Transaction",
-      value: "mango",
-      label: "Mango",
+      props: {
+        value: "mango",
+      },
+      content: "Mango",
     },
-    { type: "TextInput", placeholder: "Enter your favourite fruit" },
+    { type: "TextInput", props: { placeholder: "Enter your favourite fruit" } },
   ],
 };
 

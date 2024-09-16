@@ -5,7 +5,6 @@ import { queryClient } from "~~/components/ScaffoldEthAppWithProviders";
 import { TRIAL_FRAME } from "~~/constants";
 import { getFrameById } from "~~/services/frames";
 import { Frame, Intent, InternalFrameJSON, Journey } from "~~/types/commontypes";
-import { makeFrogFrame } from "~~/utils/general";
 
 interface IProductJourney {
   productID: string;
@@ -21,8 +20,8 @@ interface IProductJourney {
   deleteFrame: UseMutationResult<Frame, Error, string>;
   htmlToImage: UseMutationResult<{ image: string }, Error, { html: string }>;
   frames: string[] | undefined;
-  frogFrame: InternalFrameJSON | null;
   buttons: Intent[] | undefined;
+  textInput: Intent | undefined;
 }
 
 const ProductJourney = createContext<IProductJourney | null>(null);
@@ -174,11 +173,8 @@ const useProduct = () => {
   const frames = useMemo(() => {
     return journey?.frames;
   }, [journey]);
-  const frogFrame = useMemo(() => {
-    if (!currentFrame) return null;
-    return makeFrogFrame(currentFrame as InternalFrameJSON);
-  }, [currentFrame]);
-  const buttons = frogFrame?.intents.filter(intent => intent.type.includes("Button"));
+  const buttons = currentFrame?.intents.filter(intent => intent.type.includes("Button"));
+  const textInput = currentFrame?.intents.find(intent => intent.type === "TextInput");
   return {
     productID,
     productQuery,
@@ -193,8 +189,8 @@ const useProduct = () => {
     deleteFrame,
     htmlToImage,
     frames,
-    frogFrame,
     buttons,
+    textInput,
   };
 };
 

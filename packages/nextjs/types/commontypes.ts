@@ -12,7 +12,7 @@ export interface Journey {
 type Image = {
   type: "html" | "src";
   src?: string;
-  props?: Record<string, string>;
+  style?: Record<string, string>;
   content?: string;
 };
 type IntentProps = {

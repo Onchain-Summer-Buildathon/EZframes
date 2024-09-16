@@ -9,10 +9,12 @@ import { Intent, InternalFrameJSON } from "~~/types/commontypes";
 import { notification } from "~~/utils/scaffold-eth";
 
 const ButtonList = () => {
-  const { currentFrame, setCurrentFrame, frame, saveFrame, deleteFrame, frogFrame, buttons } = useProductJourney();
+  const { currentFrame, setCurrentFrame, frame, saveFrame, deleteFrame } = useProductJourney();
   const [activeButtonIndex, setActiveButtonIndex] = useState<number>(0);
   const [open, setOpen] = useState(false);
-  if (!currentFrame || !frogFrame || !buttons || buttons.length <= 0) return null;
+  const buttons = currentFrame?.intents.filter(intent => intent.type.includes("Button")) as Intent[];
+  console.log("buttons", buttons);
+  if (!currentFrame) return null;
 
   const handleAddButton = () => {
     const newButton = {
@@ -109,7 +111,7 @@ const ButtonList = () => {
         >
           Delete Frame
         </CustomButton>
-        <CustomButton buttonType="success" variant="contained" size="small" onClick={handleSaveFrame}>
+        <CustomButton buttonType="success" variant="contained" onClick={handleSaveFrame}>
           Save Frame
         </CustomButton>
         <button onClick={() => setOpen(!open)} className="btn btn-primary mt-2 flex items-center justify-center">

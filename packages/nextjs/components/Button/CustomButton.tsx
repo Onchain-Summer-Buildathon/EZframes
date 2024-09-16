@@ -47,7 +47,13 @@ const style = (buttonType: string) => {
 };
 const CustomButton: React.FC<Props> = ({ buttonType, children, variant, ...muiButtonProps }) => {
   return (
-    <MuiButton variant={variant} sx={style(buttonType)} {...muiButtonProps} style={{ textTransform: "none" }}>
+    <MuiButton
+      variant={variant}
+      sx={style(buttonType)}
+      {...muiButtonProps}
+      style={{ textTransform: "none" }}
+      size="small"
+    >
       {children}
     </MuiButton>
   );

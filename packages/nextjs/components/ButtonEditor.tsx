@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import CustomButton from "./Button/CustomButton";
-import { FrameButtonMetadata } from "@coinbase/onchainkit";
 import { MenuItem, Select, TextField } from "@mui/material";
 import { APP_URL } from "~~/constants";
 import { useProductJourney } from "~~/providers/ProductProvider";
@@ -9,7 +8,7 @@ import { Frame, Intent } from "~~/types/commontypes";
 
 interface ButtonEditorProps {
   button: Intent;
-  onSave: (button: FrameButtonMetadata) => void;
+  onSave: (button: Intent) => void;
   onDelete: () => void;
 }
 
@@ -45,7 +44,7 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
         id="buttonType"
         value={button.type}
         onChange={e => {
-          onSave({ ...button, type: e.target.value as string });
+          onSave({ ...button, type: e.target.value as Intent["type"] });
         }}
         variant="outlined"
         size="small"
@@ -81,7 +80,7 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
             onChange={e =>
               onSave({
                 ...button,
-                action: (`${APP_URL}/api/orchestrator/` + e.target.value) as FrameButtonMetadata["target"],
+                props: { ...button.props, action: `${APP_URL}/api/orchestrator/` + e.target.value },
               })
             }
           >
@@ -154,7 +153,7 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
             onChange={e =>
               onSave({
                 ...button,
-                action: (`${APP_URL}/api/orchestrator/` + e.target.value) as FrameButtonMetadata["target"],
+                props: { ...button.props, action: `${APP_URL}/api/orchestrator/` + e.target.value },
               })
             }
           >
