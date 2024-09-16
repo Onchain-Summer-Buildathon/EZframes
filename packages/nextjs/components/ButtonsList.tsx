@@ -2,32 +2,28 @@ import { useState } from "react";
 import CustomButton from "./Button/CustomButton";
 import ButtonEditor from "./ButtonEditor";
 import FarcasterModal from "./FarcasterModal";
-import { FrameButtonMetadata, FrameMetadataType } from "@coinbase/onchainkit";
 import { IconButton } from "@mui/material";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { TRIAL_FRAME } from "~~/constants";
 import { useProductJourney } from "~~/providers/ProductProvider";
-import { makeFrogFrame } from "~~/utils/general";
+import { Intent, InternalFrameJSON } from "~~/types/commontypes";
 import { notification } from "~~/utils/scaffold-eth";
 
 const ButtonList = () => {
-  const { currentFrame, setCurrentFrame, frame, saveFrame, deleteFrame } = useProductJourney();
+  const { currentFrame, setCurrentFrame, frame, saveFrame, deleteFrame, frogFrame, buttons } = useProductJourney();
   const [activeButtonIndex, setActiveButtonIndex] = useState<number>(0);
   const [open, setOpen] = useState(false);
-  if (!currentFrame) return null;
+  if (!currentFrame || !frogFrame || !buttons || buttons.length <= 0) return null;
+
   const handleAddButton = () => {
-    // @ts-ignore
-    setCurrentFrame(prevFrame => ({
-      ...prevFrame,
-      buttons: [
-        ...(prevFrame?.buttons || []),
-        {
-          label: "New Button",
-          postUrl: "",
-          target: "",
-        },
-      ],
-    }));
+    const newButton = {
+      type: "Button" as Intent["type"],
+      content: "New Button",
+      props: {},
+    };
+    setCurrentFrame({
+      ...currentFrame,
+      intents: [...currentFrame.intents, newButton],
+    });
   };
 
   const handleButtonClick = (index: number) => {
@@ -39,42 +35,36 @@ const ButtonList = () => {
     await saveFrame.mutateAsync({
       _id: frame?._id as string,
       name: frame?.name as string,
-      frameJson: currentFrame as FrameMetadataType,
+      frameJson: currentFrame as InternalFrameJSON,
+      connectedTo: [],
     });
   };
 
-  const handleSave = (button: FrameButtonMetadata) => {
-    if (currentFrame) {
-      // @ts-ignore
-      const newButtons = [...currentFrame.buttons];
-      newButtons[activeButtonIndex] = button;
-      setCurrentFrame({
-        ...currentFrame,
-        // @ts-ignore
-        buttons: newButtons,
-      });
-    }
+  const handleSave = (button: Intent) => {
+    if (!button) return;
+    const newButtons = [...currentFrame.intents];
+    newButtons[activeButtonIndex] = button;
+    setCurrentFrame({
+      ...currentFrame,
+      intents: newButtons,
+    });
   };
 
   const handleDelete = () => {
-    if (!currentFrame) return;
-    if (currentFrame?.buttons?.length === 1) {
+    const buttons = currentFrame.intents.filter(intent => intent.type.includes("Button"));
+    if (buttons?.length === 1) {
       notification.error("At least one button is required");
       return;
     }
-    const newButtons = [...currentFrame.buttons];
+    const newButtons = [...currentFrame.intents];
     newButtons.splice(activeButtonIndex, 1);
-    // @ts-ignore
     setCurrentFrame({
       ...currentFrame,
-      // @ts-ignore
-      buttons: newButtons,
+      intents: newButtons,
     });
     setActiveButtonIndex(0);
   };
-  const frogFrame = makeFrogFrame(TRIAL_FRAME);
-  const buttons = frogFrame.intents.filter(intent => intent.type.includes("Button"));
-  if (!buttons) return null;
+
   return (
     <div className="mb-4 flex flex-col gap-4">
       <div className="flex items-center">
@@ -82,7 +72,7 @@ const ButtonList = () => {
           Buttons
         </label>
         {/* @ts-ignore*/}
-        {currentFrame?.buttons?.length < 4 && (
+        {buttons?.length < 4 && (
           <IconButton onClick={handleAddButton}>
             <PlusIcon className="w-4 h-4 text-gray-700 border-2 border-black" />
           </IconButton>
@@ -104,7 +94,7 @@ const ButtonList = () => {
         ))}
       </div>
       {/* @ts-ignore */}
-      {currentFrame?.buttons[activeButtonIndex] && (
+      {buttons[activeButtonIndex] && (
         <ButtonEditor button={buttons[activeButtonIndex]} onSave={handleSave} onDelete={handleDelete} />
       )}
       <div className="flex items-center">
