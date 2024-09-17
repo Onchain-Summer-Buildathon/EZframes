@@ -1,5 +1,6 @@
 import { FrameMetadataType } from "@coinbase/onchainkit";
 import { Abi } from "viem";
+import { InternalFrameJSON } from "~~/types/commontypes";
 
 export const APP_URL = "https://ezframes.xyz";
 export const txFrame = {
@@ -45,7 +46,7 @@ export const DEFAULT_FRAME = {
   ]`,
 };
 
-export const TRIAL_FRAME = {
+export const TRIAL_FRAME: InternalFrameJSON = {
   image: {
     type: "src",
     src: "https://placehold.co/600x400",

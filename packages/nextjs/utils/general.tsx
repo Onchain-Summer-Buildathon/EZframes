@@ -10,7 +10,7 @@ export const makeFrogFrame = (frame: { image: any; intents: any }) => {
   if (frame.image.type === "html") {
     frogFrame.image = {
       type: "html",
-      props: { style: frame.image.style },
+      style: frame.image.style,
       content: frame.image.content,
     };
   }

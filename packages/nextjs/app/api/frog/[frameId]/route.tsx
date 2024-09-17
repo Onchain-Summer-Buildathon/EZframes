@@ -46,7 +46,7 @@ app.frame(`/:frameId`, async c => {
   });
 
   return c.res({
-    image: <div style={frame.image.props.style}>{frame.image.content}</div>,
+    image: <div style={frame.image.style}>{frame.image.content}</div>,
     intents,
   });
 });
