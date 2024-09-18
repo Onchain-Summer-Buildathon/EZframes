@@ -3,9 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { TRIAL_FRAME } from "~~/constants";
 import { useProductJourney } from "~~/providers/ProductProvider";
 import { getFrameById } from "~~/services/frames";
-import { GetDefaultFrame } from "~~/services/frames/frameGetters";
-import { Frame } from "~~/types/commontypes";
-import { makeFrogFrame } from "~~/utils/general";
+import { Frame, InternalFrameJSON } from "~~/types/commontypes";
 
 const thumbnailImageStyle = {
   width: "100%",
@@ -41,7 +39,7 @@ const thumbnailActiveStyle = {
   backgroundColor: "#c0c0c0",
 };
 function FrameSidebar() {
-  const { productQuery, productID, frame, setFrame, setCurrentFrame, createFrame } = useProductJourney();
+  const { productQuery, frame, setFrame, setCurrentFrame, createFrame } = useProductJourney();
   const [frames, setFrames] = useState<Frame[] | undefined>(undefined);
   const [currentFrameId, setCurrentFrameId] = useState<string>(frame?._id as string);
 
@@ -65,11 +63,12 @@ function FrameSidebar() {
   const onCreate = async () => {
     await createFrame.mutateAsync({
       name: "Frame",
-      frameJson: GetDefaultFrame(productID),
+      frameJson: TRIAL_FRAME as InternalFrameJSON,
+      connectedTo: [],
     });
   };
+
   if (!frames) return null;
-  const trialFrame = makeFrogFrame(TRIAL_FRAME);
   return (
     <div className="bg-white flex flex-col p-4 h-[100%]">
       <div style={sidebarStyle as React.CSSProperties}>
@@ -83,10 +82,11 @@ function FrameSidebar() {
               setCurrentFrame(slide.frameJson);
             }}
           >
-            {/*@ts-ignore*/}
-            {trialFrame.image.type === "html" && <div style={thumbnailImageStyle}>{trialFrame.image.content}</div>}
+            {slide.frameJson.image.type === "html" && (
+              <div style={thumbnailImageStyle}>{slide.frameJson.image.content}</div>
+            )}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            {trialFrame.image.type === "src" && <img src={trialFrame.image.src} alt="Product" />}
+            {slide.frameJson.image.type === "src" && <img src={slide.frameJson.image.src} alt="Product" />}
             <div style={{ alignItems: "center", justifyContent: "center", display: "flex", marginTop: "-0px" }}>
               {slide.name}
             </div>
