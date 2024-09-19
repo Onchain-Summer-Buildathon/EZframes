@@ -2,7 +2,6 @@ import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useSt
 import { useParams } from "next/navigation";
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "~~/components/ScaffoldEthAppWithProviders";
-import { TRIAL_FRAME } from "~~/constants";
 import { getFrameById } from "~~/services/frames";
 import { Frame, Intent, InternalFrameJSON, Journey } from "~~/types/commontypes";
 
@@ -76,7 +75,7 @@ const useProduct = () => {
     if (frame || !productQuery.data.frames) return;
     getFrameById(productQuery.data.frames[0]).then(frame => {
       setFrame(frame);
-      setCurrentFrame(TRIAL_FRAME);
+      setCurrentFrame(frame.frameJson);
     });
   }, [frame, productQuery.data]);
 

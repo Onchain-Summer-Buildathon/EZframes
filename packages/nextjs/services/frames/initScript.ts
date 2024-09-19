@@ -57,7 +57,7 @@ export const initJourneyWithFrames = async (journeyId: string, productImage: str
     frameJson: successFrameJSON,
     connectedTo: [],
   });
-
+  console.log(successFrameJSON, "successFrameJSON");
   const journey = await saveJourney({
     _id: journeyId,
     frames: frames,

@@ -3,7 +3,7 @@ import { Button, Frog, TextInput } from "frog";
 import { devtools } from "frog/dev";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
-import { TRIAL_FRAME } from "~~/constants";
+import { getFrameAtServer } from "~~/services/frames";
 import { makeFrogFrame } from "~~/utils/general";
 
 const app = new Frog({
@@ -17,8 +17,9 @@ app.frame(`/:frameId`, async c => {
     throw new Error("Invalid frame ID");
   }
 
-  const frame = makeFrogFrame(TRIAL_FRAME);
-
+  const data = await getFrameAtServer(frameId[1]);
+  const frame = makeFrogFrame(data.frameJson);
+  console.log("frame", frame);
   const intents = frame.intents.map((intent: any) => {
     const props = intent.props || {};
     switch (true) {
