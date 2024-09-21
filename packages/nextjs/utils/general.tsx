@@ -28,9 +28,9 @@ export const makeFrogFrame = (frame: { image: any; intents: any }) => {
       props: {
         ...intent.props,
       },
-      content: intent.label,
+      content: intent.content,
     };
   });
-
+  console.log({ frogFrame });
   return frogFrame;
 };

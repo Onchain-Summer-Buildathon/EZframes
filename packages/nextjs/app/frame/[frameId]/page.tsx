@@ -1,4 +1,4 @@
-import { getFrameMetadata } from "frog";
+import { getFrameMetadata } from "frog/next";
 import { Metadata } from "next";
 import { APP_URL } from "~~/constants";
 
@@ -12,9 +12,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const frameMetadata = await getFrameMetadata(`${APP_URL}/api/frog/${id}`);
     return {
-      title: "Check out this frame!",
-      description: "This frame is made by EZFrames",
-      // @ts-ignore
+      title: "EZ Frames",
+      description: "Check this on warpcast",
       other: frameMetadata,
     };
   } catch (error: any) {

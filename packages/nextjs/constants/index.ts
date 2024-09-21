@@ -2,7 +2,7 @@ import { FrameMetadataType } from "@coinbase/onchainkit";
 import { Abi } from "viem";
 import { InternalFrameJSON } from "~~/types/commontypes";
 
-export const APP_URL = "https://d73a-2406-7400-94-8dd0-e444-b27a-7c5b-2d94.ngrok-free.app";
+export const APP_URL = "https://7878-2406-7400-94-d8e8-ed7d-ac23-7570-a0cb.ngrok-free.app";
 export const txFrame = {
   buttons: [
     {
@@ -48,8 +48,7 @@ export const DEFAULT_FRAME = {
 
 export const TRIAL_FRAME: InternalFrameJSON = {
   image: {
-    type: "src",
-    src: "https://placehold.co/600x400",
+    type: "html",
     style: {
       backgroundColor: "white",
       borderRadius: "10px",

@@ -12,14 +12,13 @@ const app = new Frog({
 });
 
 app.frame(`/:frameId`, async c => {
-  const frameId = c.req.path.match(/\/api\/frog\/(\d+)/);
+  const frameId = c.req.path.match(/\/api\/frog\/([a-zA-Z0-9]+)/);
   if (!frameId) {
     throw new Error("Invalid frame ID");
   }
 
   const data = await getFrameAtServer(frameId[1]);
   const frame = makeFrogFrame(data.frameJson);
-  console.log("frame", frame);
   const intents = frame.intents.map((intent: any) => {
     const props = intent.props || {};
     switch (true) {
@@ -45,9 +44,9 @@ app.frame(`/:frameId`, async c => {
         return null;
     }
   });
-
+  const image = frame.image.type === "src" ? frame.image.src : frame.image.content;
   return c.res({
-    image: <div style={frame.image.style}>{frame.image.content}</div>,
+    image: image as string,
     intents,
   });
 });
