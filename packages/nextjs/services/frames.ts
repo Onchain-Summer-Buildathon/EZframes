@@ -31,7 +31,7 @@ export const getFrameAtServer = async (id: string) => {
 
 export const removeUrl = (url: string) => {
   if (!url) return "";
-  return url.replace(`${APP_URL}/api/orchestrator/`, "");
+  return url.replace(`${APP_URL}/api/frog/`, "");
 };
 
 export const createFrame = async (frame: Omit<Frame, "_id">) => {

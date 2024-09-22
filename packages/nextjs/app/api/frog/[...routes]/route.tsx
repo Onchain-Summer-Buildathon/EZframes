@@ -4,6 +4,7 @@ import { devtools } from "frog/dev";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
 import { getFrameAtServer } from "~~/services/frames";
+import { Frame } from "~~/types/commontypes";
 import { makeFrogFrame } from "~~/utils/general";
 
 const app = new Frog({
@@ -16,8 +17,7 @@ app.frame(`/:frameId`, async c => {
   if (!frameId) {
     throw new Error("Invalid frame ID");
   }
-
-  const data = await getFrameAtServer(frameId[1]);
+  const data: Frame = await getFrameAtServer(frameId[1]);
   const frame = makeFrogFrame(data.frameJson);
   const intents = frame.intents.map((intent: any) => {
     const props = intent.props || {};
@@ -44,7 +44,8 @@ app.frame(`/:frameId`, async c => {
         return null;
     }
   });
-  const image = frame.image.type === "src" ? frame.image.src : frame.image.content;
+  const image =
+    frame.image.type === "src" ? frame.image.src : <div style={frame.image.style}>{frame.image.content}</div>;
   return c.res({
     image: image as string,
     intents,

@@ -80,7 +80,7 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
             onChange={e =>
               onSave({
                 ...button,
-                props: { ...button.props, action: `${APP_URL}/api/orchestrator/` + e.target.value },
+                props: { ...button.props, action: `${APP_URL}/api/frog/` + e.target.value },
               })
             }
           >
@@ -153,7 +153,7 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
             onChange={e =>
               onSave({
                 ...button,
-                props: { ...button.props, action: `${APP_URL}/api/orchestrator/` + e.target.value },
+                props: { ...button.props, action: `${APP_URL}/api/frog/` + e.target.value },
               })
             }
           >
