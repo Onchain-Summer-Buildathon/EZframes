@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ButtonList from "./ButtonsList";
+import Editor from "@monaco-editor/react";
 import { MenuItem, Select, TextField } from "@mui/material";
 import { useProductJourney } from "~~/providers/ProductProvider";
 
 const FrameEditor = () => {
   const { frame, setFrame, currentFrame, setCurrentFrame } = useProductJourney();
   const [imageUrlOption, setImageUrlOption] = useState("url");
-  // const [htmlInput, setHtmlInput] = useState("");
+  const [htmlInput, setHtmlInput] = useState("");
   // @ts-ignore
   const [imageUrl, setImageUrl] = useState(currentFrame?.image.src || "");
   // const getImageResponse = async (html: string) => {
@@ -50,6 +51,7 @@ const FrameEditor = () => {
     setImageUrl(currentFrame?.image?.src || "");
     setTextInput(currentFrame?.intents.find(intent => intent.type === "TextInput"));
   }, [currentFrame]);
+  console.log(htmlInput, imageUrl, currentFrame, currentFrame?.image?.src);
   if (!currentFrame) return null;
   return (
     <div className="bg-white flex flex-col gap-4 p-4 h-[100%]">
@@ -97,7 +99,42 @@ const FrameEditor = () => {
           />
         </>
       ) : (
-        <div className="flex flex-col gap-2">Coming soon!</div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="htmlInput" className="block text-sm font-medium text-gray-700">
+            HTML
+          </label>
+          <Editor
+            theme="vs-dark"
+            height="300px"
+            width="100%"
+            language="html"
+            value={currentFrame.image.content}
+            onChange={value => {
+              if (!value) return;
+              setHtmlInput(value);
+            }}
+          />
+          <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">
+            Style JSON
+          </label>
+          <Editor
+            theme="vs-dark"
+            height="300px"
+            width="100%"
+            language="json"
+            value={JSON.stringify(currentFrame.image.style, null, 2)}
+            onChange={value => {
+              if (!value) return;
+              setCurrentFrame({
+                ...currentFrame,
+                image: {
+                  ...currentFrame.image,
+                  style: JSON.parse(value),
+                },
+              });
+            }}
+          />
+        </div>
       )}
       {textInput ? (
         <>
