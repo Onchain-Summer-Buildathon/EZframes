@@ -3,6 +3,7 @@ import { Button, Frog, TextInput, parseEther } from "frog";
 import { devtools } from "frog/dev";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
+import { ABI } from "~~/constants";
 import { getFrameAtServer } from "~~/services/frames";
 import { Frame } from "~~/types/commontypes";
 import { makeFrogFrame } from "~~/utils/general";
@@ -54,6 +55,7 @@ app.frame(`/:frameId`, async c => {
 
 devtools(app, { serveStatic });
 
+// lets use this route to send ether to user directly (PEER to PEER)
 app.transaction("/send-ether", c => {
   return c.send({
     chainId: "eip155:10",
@@ -62,5 +64,14 @@ app.transaction("/send-ether", c => {
   });
 });
 
+app.transaction("/send-contract", c => {
+  return c.contract({
+    chainId: "eip155:10",
+    abi: ABI,
+    functionName: "transfer",
+    args: [],
+    to: "0xd2135CfB216b74109775236E36d4b433F1DF507B",
+  });
+});
 export const GET = handle(app);
 export const POST = handle(app);
