@@ -15,7 +15,6 @@ const app = new Frog({
   title: "Frog Frame",
 });
 
-const HARDCODED_JOURNEY_ID = "1"; //figure out a way to do this
 const storeAnalytics = async (frameData: FrameData, journeyId: string, frameId: string, type: string) => {
   const analyticsEntry = new Analytics({
     journeyId: journeyId || "",
@@ -25,16 +24,20 @@ const storeAnalytics = async (frameData: FrameData, journeyId: string, frameId: 
     inputtedText: frameData.inputText || "",
     timestamp: frameData.timestamp,
     typeOfFrame: type || "",
+    state: frameData.state || "",
   });
   await analyticsEntry.save();
 };
 
-app.frame(`/:frameId`, async c => {
-  const frameId = c.req.path.match(/\/api\/frog\/([a-zA-Z0-9]+)/);
-  if (!frameId) {
-    throw new Error("Invalid frame ID");
+app.frame(`/:journeyId/:frameId`, async c => {
+  const match = c.req.path.match(/\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)/);
+
+  if (!match || match.length < 3) {
+    throw new Error("Invalid journey or frame ID");
   }
-  await storeAnalytics(c.frameData as FrameData, HARDCODED_JOURNEY_ID, frameId[1], "render-frame");
+  const [, journeyId, frameId] = match;
+
+  await storeAnalytics(c.frameData as FrameData, journeyId, frameId[1], "render-frame");
   const data: Frame = await getFrameAtServer(frameId[1]);
   const frame = makeFrogFrame(data.frameJson);
   const intents = frame.intents.map((intent: any) => {
@@ -70,14 +73,15 @@ app.frame(`/:frameId`, async c => {
   });
 });
 
-devtools(app, { serveStatic });
+app.transaction("/:journeyId/:frameId/send-ether", async c => {
+  const match = c.req.path.match(/\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)/);
 
-app.transaction("/:frameId/send-ether", async c => {
-  const frameId = c.req.path.match(/\/api\/frog\/([a-zA-Z0-9]+)/);
-  if (!frameId) {
-    throw new Error("Invalid frame ID");
+  if (!match || match.length < 3) {
+    throw new Error("Invalid journey or frame ID");
   }
-  storeAnalytics(c.frameData as FrameData, HARDCODED_JOURNEY_ID, frameId[1], "send-ether");
+  const [, journeyId, frameId] = match;
+
+  storeAnalytics(c.frameData as FrameData, journeyId, frameId, "send-ether");
   return c.send({
     chainId: "eip155:10",
     to: "0xd2135CfB216b74109775236E36d4b433F1DF507B",
@@ -85,12 +89,15 @@ app.transaction("/:frameId/send-ether", async c => {
   });
 });
 
-app.transaction("/send-contract", c => {
-  const frameId = c.req.path.match(/\/api\/frog\/([a-zA-Z0-9]+)/);
-  if (!frameId) {
-    throw new Error("Invalid frame ID");
+app.transaction("/:journeyId/:frameId/send-contract", c => {
+  const match = c.req.path.match(/\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)/);
+
+  if (!match || match.length < 3) {
+    throw new Error("Invalid journey or frame ID");
   }
-  storeAnalytics(c.frameData as FrameData, HARDCODED_JOURNEY_ID, frameId[1], "contract-transaction");
+  const [, journeyId, frameId] = match;
+
+  storeAnalytics(c.frameData as FrameData, journeyId, frameId, "contract-transaction");
 
   return c.contract({
     chainId: "eip155:10",
@@ -100,5 +107,7 @@ app.transaction("/send-contract", c => {
     to: "0xd2135CfB216b74109775236E36d4b433F1DF507B",
   });
 });
+
+devtools(app, { serveStatic });
 export const GET = handle(app);
 export const POST = handle(app);

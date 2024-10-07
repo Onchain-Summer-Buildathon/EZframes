@@ -13,7 +13,7 @@ interface ButtonEditorProps {
 }
 
 const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
-  const { frames: dbFrames, frame } = useProductJourney();
+  const { frames: dbFrames, frame, productID } = useProductJourney();
   const [frames, setFrames] = useState<Frame[] | undefined>();
 
   useEffect(() => {
@@ -75,12 +75,12 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
           <Select
             id="post"
             size="small"
-            value={removeUrl(button.props.action as string)}
+            value={removeUrl(button.props.action as string, productID)}
             variant="outlined"
             onChange={e =>
               onSave({
                 ...button,
-                props: { ...button.props, action: `${APP_URL}/api/frog/` + e.target.value },
+                props: { ...button.props, action: `${APP_URL}/api/frog/${productID}` + e.target.value },
               })
             }
           >
@@ -134,9 +134,12 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
             id="buttonLocation"
             size="small"
             value={button.props.location as string}
-            onChange={e => {
-              onSave({ ...button, props: { ...button.props, location: e.target.value as string } });
-            }}
+            onChange={e =>
+              onSave({
+                ...button,
+                props: { ...button.props, action: `${APP_URL}/api/frog/${productID}/` + e.target.value },
+              })
+            }
           />
         </>
       )}
@@ -148,12 +151,12 @@ const ButtonEditor = ({ button, onSave, onDelete }: ButtonEditorProps) => {
           <Select
             id="post"
             size="small"
-            value={removeUrl(button.props.action as string)}
+            value={removeUrl(button.props.action as string, productID)}
             variant="outlined"
             onChange={e =>
               onSave({
                 ...button,
-                props: { ...button.props, action: `${APP_URL}/api/frog/` + e.target.value },
+                props: { ...button.props, action: `${APP_URL}/api/frog/${productID}/` + e.target.value },
               })
             }
           >
