@@ -1,10 +1,9 @@
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
-import { FrameMetadataType } from "@coinbase/onchainkit";
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "~~/components/ScaffoldEthAppWithProviders";
 import { getFrameById } from "~~/services/frames";
-import { Frame, Journey } from "~~/types/commontypes";
+import { Frame, Intent, InternalFrameJSON, Journey } from "~~/types/commontypes";
 
 interface IProductJourney {
   productID: string;
@@ -13,13 +12,15 @@ interface IProductJourney {
   frame: Frame | null;
   setFrame: (frame: Frame) => void;
   journey: Journey | null;
-  setCurrentFrame: (frame: FrameMetadataType) => void;
-  currentFrame: FrameMetadataType | null;
+  setCurrentFrame: (frame: InternalFrameJSON) => void;
+  currentFrame: InternalFrameJSON | null;
   createFrame: UseMutationResult<Frame, Error, Omit<Frame, "_id">>;
   saveFrame: UseMutationResult<Frame, Error, Frame>;
   deleteFrame: UseMutationResult<Frame, Error, string>;
   htmlToImage: UseMutationResult<{ image: string }, Error, { html: string }>;
   frames: string[] | undefined;
+  buttons: Intent[] | undefined;
+  textInput: Intent | undefined;
 }
 
 const ProductJourney = createContext<IProductJourney | null>(null);
@@ -31,7 +32,7 @@ const useProduct = () => {
   }, [params.productID]);
   const [journey, setJourney] = useState<Journey | null>(null);
   const [frame, setFrame] = useState<Frame | null>(null);
-  const [currentFrame, setCurrentFrame] = useState<FrameMetadataType | null>(null);
+  const [currentFrame, setCurrentFrame] = useState<InternalFrameJSON | null>(null);
 
   const productQuery = useQuery({
     queryKey: ["product", productID],
@@ -171,6 +172,8 @@ const useProduct = () => {
   const frames = useMemo(() => {
     return journey?.frames;
   }, [journey]);
+  const buttons = currentFrame?.intents.filter(intent => intent.type.includes("Button"));
+  const textInput = currentFrame?.intents.find(intent => intent.type === "TextInput");
   return {
     productID,
     productQuery,
@@ -185,6 +188,8 @@ const useProduct = () => {
     deleteFrame,
     htmlToImage,
     frames,
+    buttons,
+    textInput,
   };
 };
 

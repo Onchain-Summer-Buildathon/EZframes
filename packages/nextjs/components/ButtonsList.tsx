@@ -1,30 +1,31 @@
 import { useState } from "react";
+import CustomButton from "./Button/CustomButton";
 import ButtonEditor from "./ButtonEditor";
 import FarcasterModal from "./FarcasterModal";
-import { FrameButtonMetadata, FrameMetadataType } from "@coinbase/onchainkit";
 import { IconButton } from "@mui/material";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useProductJourney } from "~~/providers/ProductProvider";
+import { Intent, InternalFrameJSON } from "~~/types/commontypes";
 import { notification } from "~~/utils/scaffold-eth";
 
 const ButtonList = () => {
   const { currentFrame, setCurrentFrame, frame, saveFrame, deleteFrame } = useProductJourney();
   const [activeButtonIndex, setActiveButtonIndex] = useState<number>(0);
   const [open, setOpen] = useState(false);
+  const buttons = currentFrame?.intents.filter(intent => intent.type.includes("Button")) as Intent[];
+  console.log("buttons", buttons);
   if (!currentFrame) return null;
+
   const handleAddButton = () => {
-    // @ts-ignore
-    setCurrentFrame(prevFrame => ({
-      ...prevFrame,
-      buttons: [
-        ...(prevFrame?.buttons || []),
-        {
-          label: "New Button",
-          postUrl: "",
-          target: "",
-        },
-      ],
-    }));
+    const newButton = {
+      type: "Button" as Intent["type"],
+      content: "New Button",
+      props: {},
+    };
+    setCurrentFrame({
+      ...currentFrame,
+      intents: [...currentFrame.intents, newButton],
+    });
   };
 
   const handleButtonClick = (index: number) => {
@@ -36,75 +37,83 @@ const ButtonList = () => {
     await saveFrame.mutateAsync({
       _id: frame?._id as string,
       name: frame?.name as string,
-      frameJson: currentFrame as FrameMetadataType,
+      frameJson: currentFrame as InternalFrameJSON,
+      connectedTo: [],
     });
   };
 
-  const handleSave = (button: FrameButtonMetadata) => {
-    if (currentFrame) {
-      // @ts-ignore
-      const newButtons = [...currentFrame.buttons];
-      newButtons[activeButtonIndex] = button;
-      setCurrentFrame({
-        ...currentFrame,
-        // @ts-ignore
-        buttons: newButtons,
-      });
-    }
+  const handleSave = (button: Intent) => {
+    if (!button) return;
+    const newButtons = [...currentFrame.intents];
+    newButtons[activeButtonIndex] = button;
+    setCurrentFrame({
+      ...currentFrame,
+      intents: newButtons,
+    });
   };
 
   const handleDelete = () => {
-    if (!currentFrame) return;
-    if (currentFrame?.buttons?.length === 1) {
+    const buttons = currentFrame.intents.filter(intent => intent.type.includes("Button"));
+    if (buttons?.length === 1) {
       notification.error("At least one button is required");
       return;
     }
-    const newButtons = [...currentFrame.buttons];
+    const newButtons = [...currentFrame.intents];
     newButtons.splice(activeButtonIndex, 1);
-    // @ts-ignore
     setCurrentFrame({
       ...currentFrame,
-      // @ts-ignore
-      buttons: newButtons,
+      intents: newButtons,
     });
     setActiveButtonIndex(0);
   };
+
   return (
-    <div className="mb-4 flex flex-col gap-2">
-      <div className="flex items-center  gap-2">
+    <div className="mb-4 flex flex-col gap-4">
+      <div className="flex items-center">
         <label htmlFor="buttons" className="block text-sm font-medium text-gray-700 ">
           Buttons
         </label>
         {/* @ts-ignore*/}
-        {currentFrame?.buttons?.length < 4 && (
+        {buttons?.length < 4 && (
           <IconButton onClick={handleAddButton}>
             <PlusIcon className="w-4 h-4 text-gray-700 border-2 border-black" />
           </IconButton>
         )}
       </div>
       <div className="flex flex-wrap gap-2">
-        {currentFrame?.buttons?.map((button, index) => (
-          <button key={index} className="btn btn-primary" onClick={() => handleButtonClick(index)}>
-            {button.label}
+        {buttons.map((button, index) => (
+          <button
+            key={index}
+            className="btn bg-black rounded-md text-white px-4 py-2"
+            style={{
+              flex: "1 1 0px",
+              cursor: "pointer",
+            }}
+            onClick={() => handleButtonClick(index)}
+          >
+            {button.content}
           </button>
         ))}
       </div>
       {/* @ts-ignore */}
-      {currentFrame?.buttons[activeButtonIndex] && (
-        <ButtonEditor button={currentFrame.buttons[activeButtonIndex]} onSave={handleSave} onDelete={handleDelete} />
+      {buttons[activeButtonIndex] && (
+        <ButtonEditor button={buttons[activeButtonIndex]} onSave={handleSave} onDelete={handleDelete} />
       )}
       <div className="flex items-center">
-        <button
+        <CustomButton
+          // @ts-ignore
           onClick={() => {
             deleteFrame.mutateAsync(frame?._id as string);
           }}
-          className="btn btn-error mt-2 flex items-center justify-center"
+          buttonType="delete"
+          variant="contained"
+          size="small"
         >
           Delete Frame
-        </button>
-        <button onClick={handleSaveFrame} className="btn btn-success  mt-2 flex items-center justify-center">
+        </CustomButton>
+        <CustomButton buttonType="success" variant="contained" onClick={handleSaveFrame}>
           Save Frame
-        </button>
+        </CustomButton>
         <button onClick={() => setOpen(!open)} className="btn btn-primary mt-2 flex items-center justify-center">
           Export Product
         </button>
