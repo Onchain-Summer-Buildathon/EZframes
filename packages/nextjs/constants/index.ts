@@ -2,7 +2,7 @@ import { FrameMetadataType } from "@coinbase/onchainkit";
 import { Abi } from "viem";
 import { InternalFrameJSON } from "~~/types/commontypes";
 
-export const APP_URL = "https://7878-2406-7400-94-d8e8-ed7d-ac23-7570-a0cb.ngrok-free.app";
+export const APP_URL = "http://localhost:3001";
 export const txFrame = {
   buttons: [
     {

@@ -30,15 +30,17 @@ const storeAnalytics = async (frameData: FrameData, journeyId: string, frameId: 
 };
 
 app.frame(`/:journeyId/:frameId`, async c => {
-  const match = c.req.path.match(/\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)/);
+  const match = c.req.path.match(/^\/api\/frog\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)$/);
 
   if (!match || match.length < 3) {
     throw new Error("Invalid journey or frame ID");
   }
   const [, journeyId, frameId] = match;
-
-  await storeAnalytics(c.frameData as FrameData, journeyId, frameId[1], "render-frame");
-  const data: Frame = await getFrameAtServer(frameId[1]);
+  if (c.req.method === "POST") {
+    storeAnalytics(c.frameData as FrameData, journeyId, frameId, "submit-frame");
+  }
+  // await storeAnalytics(c.frameData as FrameData, journeyId, frameId[1], "render-frame");
+  const data: Frame = await getFrameAtServer(frameId);
   const frame = makeFrogFrame(data.frameJson);
   const intents = frame.intents.map((intent: any) => {
     const props = intent.props || {};

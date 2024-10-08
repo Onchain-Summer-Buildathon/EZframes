@@ -7,9 +7,9 @@ import { Frame, InternalFrameJSON } from "~~/types/commontypes";
 
 const thumbnailImageStyle = {
   width: "100%",
-  maxWidth: "100%",
+  maxWidth: "100px",
   height: "auto",
-  maxHeight: "90%",
+  maxHeight: "50px",
   borderRadius: "5px",
   display: "flex",
   alignItems: "center",
