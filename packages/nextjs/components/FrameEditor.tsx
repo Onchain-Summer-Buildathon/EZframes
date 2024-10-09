@@ -3,6 +3,7 @@ import ButtonList from "./ButtonsList";
 import Editor from "@monaco-editor/react";
 import { MenuItem, Select, TextField } from "@mui/material";
 import { useProductJourney } from "~~/providers/ProductProvider";
+import { parseHtmlString } from "~~/services/frames/extractHTML";
 
 const FrameEditor = () => {
   const { frame, setFrame, currentFrame, setCurrentFrame } = useProductJourney();
@@ -10,17 +11,6 @@ const FrameEditor = () => {
   const [htmlInput, setHtmlInput] = useState("");
   // @ts-ignore
   const [imageUrl, setImageUrl] = useState(currentFrame?.image.src || "");
-  // const getImageResponse = async (html: string) => {
-  //   const response = await fetch(`/api/imageGeneration`, {
-  //     body: JSON.stringify({ html }),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     method: "POST",
-  //   });
-  //   const data = await response.json();
-  //   return data.url;
-  // };
   const [textInput, setTextInput] = useState<any>(undefined);
 
   const handleImageUrlChange = (value: string) => {
@@ -35,22 +25,17 @@ const FrameEditor = () => {
     });
   };
 
-  // const handleHtmlToImage = async () => {
-  //   const result = await getImageResponse(htmlInput);
-  //   setImageUrl(result);
-  //   if (!currentFrame) return;
-  //   setCurrentFrame({
-  //     ...currentFrame,
-  //     image: {
-  //       type: "html",
-  //       content: htmlInput,
-  //     },
-  //   });
-  // };
   useEffect(() => {
     setImageUrl(currentFrame?.image?.src || "");
     setTextInput(currentFrame?.intents.find(intent => intent.type === "TextInput"));
   }, [currentFrame]);
+
+  useEffect(() => {
+    if (imageUrlOption === "html") {
+      const image = parseHtmlString(htmlInput);
+      console.log({ image });
+    }
+  }, [htmlInput, imageUrlOption]);
   console.log(htmlInput, imageUrl, currentFrame, currentFrame?.image?.src);
   if (!currentFrame) return null;
   return (
@@ -112,26 +97,6 @@ const FrameEditor = () => {
             onChange={value => {
               if (!value) return;
               setHtmlInput(value);
-            }}
-          />
-          <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">
-            Style JSON
-          </label>
-          <Editor
-            theme="vs-dark"
-            height="300px"
-            width="100%"
-            language="json"
-            value={JSON.stringify(currentFrame.image.style, null, 2)}
-            onChange={value => {
-              if (!value) return;
-              setCurrentFrame({
-                ...currentFrame,
-                image: {
-                  ...currentFrame.image,
-                  style: JSON.parse(value),
-                },
-              });
             }}
           />
         </div>
