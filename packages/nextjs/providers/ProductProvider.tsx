@@ -14,6 +14,7 @@ interface IProductJourney {
   journey: Journey | null;
   setCurrentFrame: (frame: InternalFrameJSON) => void;
   currentFrame: InternalFrameJSON | null;
+  currentFrameId: string | null;
   createFrame: UseMutationResult<Frame, Error, Omit<Frame, "_id">>;
   saveFrame: UseMutationResult<Frame, Error, Frame>;
   deleteFrame: UseMutationResult<Frame, Error, string>;
@@ -32,6 +33,7 @@ const useProduct = () => {
   }, [params.productID]);
   const [journey, setJourney] = useState<Journey | null>(null);
   const [frame, setFrame] = useState<Frame | null>(null);
+  const [currentFrameId, setCurrentFrameId] = useState<string | null>(null);
   const [currentFrame, setCurrentFrame] = useState<InternalFrameJSON | null>(null);
 
   const productQuery = useQuery({
@@ -75,6 +77,7 @@ const useProduct = () => {
     if (frame || !productQuery.data.frames) return;
     getFrameById(productQuery.data.frames[0]).then(frame => {
       setFrame(frame);
+      setCurrentFrameId(frame._id);
       setCurrentFrame(frame.frameJson);
     });
   }, [frame, productQuery.data]);
@@ -181,6 +184,7 @@ const useProduct = () => {
     frame,
     setFrame,
     currentFrame,
+    currentFrameId,
     setCurrentFrame,
     journey,
     createFrame,
