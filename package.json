@@ -44,6 +44,7 @@
   },
   "packageManager": "yarn@4.4.0",
   "dependencies": {
-    "permissionless": "^0.1.44"
+    "permissionless": "^0.1.44",
+    "recharts": "^2.12.7"
   }
 }
